@@ -1,9 +1,13 @@
 import { SignIn } from "@clerk/nextjs";
+import { NeonCursor } from "@/components/neon-cursor";
 
 export default function SignInPage() {
   return (
     <div className="pt-16 flex flex-col items-center gap-6">
-      <SignIn />
+      <NeonCursor orbitSelector="#auth-card" />
+      <div id="auth-card">
+        <SignIn />
+      </div>
       <p className="eyebrow text-center">
         Demo access: guest@gmail.com &middot; kessel-run-2268
       </p>
