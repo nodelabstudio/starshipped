@@ -10,13 +10,13 @@ const GUEST_EMAIL = "guest@gmail.com";
 const GUEST_PASSWORD = "guestpass";
 
 const SHIPS = [
-  { name: "Millennium Falcon", containers: 100, location: "Corellia", image: "millennium-falcon.png" },
-  { name: "Outrider", containers: 80, location: "Tatooine", image: "outrider.jpg" },
-  { name: "Imperial Star Destroyer", containers: 100, location: "Coruscant", image: "star-destroyer.jpg" },
-  { name: "Republic Cruiser", containers: 60, location: "Naboo", image: "republic-cruiser.jpg" },
-  { name: "Republic Interceptor", containers: 25, location: "Kamino", image: "republic-interceptor.jpg" },
-  { name: "XS Stock Light Freighter", containers: 45, location: "Corellia", image: "xs-stock-light.jpg" },
-  { name: "Archangel", containers: 70, location: "Bespin", image: "archangel.jpg" },
+  { name: "Millennium Falcon", containers: 100, location: "Corellia", image: "millennium-falcon.webp" },
+  { name: "Outrider", containers: 80, location: "Tatooine", image: "outrider.webp" },
+  { name: "Imperial Star Destroyer", containers: 100, location: "Coruscant", image: "star-destroyer.webp" },
+  { name: "Republic Cruiser", containers: 60, location: "Naboo", image: "republic-cruiser.webp" },
+  { name: "Republic Interceptor", containers: 25, location: "Kamino", image: "republic-interceptor.webp" },
+  { name: "XS Stock Light Freighter", containers: 45, location: "Corellia", image: "xs-stock-light.webp" },
+  { name: "Archangel", containers: 70, location: "Bespin", image: "archangel.webp" },
 ];
 
 const JOBS = [
