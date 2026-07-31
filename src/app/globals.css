@@ -123,12 +123,13 @@ body {
   .holo-c { transition: none; }
 }
 
-/* Neon cursor trail (homepage only): black canvas screen-blended over the page. */
+/* Neon cursor trail (homepage only): black canvas screen-blended behind all
+   content — panels, nav, and footer paint over it. */
 .neon-cursor-canvas {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 60;
+  z-index: -1;
   pointer-events: none;
   mix-blend-mode: screen;
 }

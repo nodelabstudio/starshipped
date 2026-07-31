@@ -56,7 +56,7 @@ export default function RootLayout({
           <main className="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 pb-20">
             {children}
           </main>
-          <footer className="border-t border-line">
+          <footer className="border-t border-line bg-void">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 flex flex-wrap gap-x-6 gap-y-1 items-baseline justify-between">
               <span className="font-display text-xs tracking-[0.25em] text-dim">
                 STARSHIPPED

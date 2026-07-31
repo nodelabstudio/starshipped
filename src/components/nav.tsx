@@ -14,7 +14,7 @@ const LINKS = [
 export function Nav() {
   const pathname = usePathname();
   return (
-    <header className="border-b border-line bg-void/80 backdrop-blur sticky top-0 z-40">
+    <header className="border-b border-line bg-void sticky top-0 z-40">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 h-14 flex items-center gap-6">
         <Link
           href="/"

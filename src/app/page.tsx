@@ -15,9 +15,9 @@ export default async function Home() {
 
   return (
     <div className="pt-14 sm:pt-20 space-y-16">
-      <NeonCursor />
+      <NeonCursor orbitSelector="#hero-copy" />
       <section className="grid lg:grid-cols-[1fr_1.1fr] gap-10 items-center">
-        <div className="space-y-6">
+        <div id="hero-copy" className="space-y-6">
           <p className="eyebrow">Outer Rim fleet logistics</p>
           <h1 className="font-display text-3xl sm:text-4xl leading-snug tracking-[0.06em] uppercase">
             Every ship.
