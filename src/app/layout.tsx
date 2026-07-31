@@ -23,6 +23,7 @@ const shareTechMono = Share_Tech_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://star.angelrod.dev"),
   title: "StarShipped",
   description:
     "Fleet logistics for the Outer Rim. Commission ships, post cargo runs, dispatch the fleet.",
