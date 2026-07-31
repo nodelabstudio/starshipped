@@ -34,6 +34,7 @@ const RADIUS2 = 30;
 const ORBIT_TIME_COEF = 0.0025;
 const ORBIT_FIT = 0.8; // idle orbit radius as a fraction of the target's half-size
 const ORBIT_OFFSET_X = -100; // px shift of the orbit center from the target's center
+const ORBIT_MARGIN = 16; // px the orbit's edge keeps clear of the viewport edge
 const VELOCITY_THRESHOLD = 10;
 
 const FRAGMENT_SHADER = `
@@ -218,9 +219,12 @@ function init(THREE: Three, orbitSelector: string): (() => void) | undefined {
       if (target) {
         const rect = target.getBoundingClientRect();
         const r = (Math.min(rect.width, rect.height) / 2) * ORBIT_FIT;
+        const cx = Math.max(
+          rect.left + rect.width / 2 + ORBIT_OFFSET_X,
+          r + ORBIT_MARGIN,
+        );
         spline.points[0].set(
-          toShaderX(rect.left + rect.width / 2 + ORBIT_OFFSET_X) +
-            (r * uRatio.value.x * Math.cos(t)) / width,
+          toShaderX(cx) + (r * uRatio.value.x * Math.cos(t)) / width,
           toShaderY(rect.top + rect.height / 2) +
             (r * uRatio.value.y * Math.sin(t)) / height,
         );
