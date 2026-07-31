@@ -33,7 +33,7 @@ const RADIUS1 = 5;
 const RADIUS2 = 30;
 const ORBIT_TIME_COEF = 0.0025;
 const ORBIT_FIT = 0.8; // idle orbit radius as a fraction of the target's half-size
-const NEON_BLUE = "#5cc8ff";
+const VELOCITY_THRESHOLD = 10;
 
 const FRAGMENT_SHADER = `
   // https://www.shadertoy.com/view/wdy3DD
@@ -147,7 +147,9 @@ function init(THREE: Three, orbitSelector: string): (() => void) | undefined {
   const uPoints = {
     value: Array.from({ length: SHADER_POINTS }, () => new THREE.Vector2()),
   };
-  const uColor = { value: new THREE.Color(NEON_BLUE) };
+  const uColor = { value: new THREE.Color(0xff00ff) };
+  const velocity = new THREE.Vector3();
+  const velocityTarget = new THREE.Vector3();
   let hover = false;
   let width = 0;
   let height = 0;
@@ -182,6 +184,18 @@ function init(THREE: Three, orbitSelector: string): (() => void) | undefined {
   function onPointerMove(e: PointerEvent) {
     hover = true;
     spline.points[0].set(toShaderX(e.clientX), toShaderY(e.clientY));
+    velocityTarget.x = Math.min(
+      velocity.x + Math.abs(e.movementX) / VELOCITY_THRESHOLD,
+      1,
+    );
+    velocityTarget.y = Math.min(
+      velocity.y + Math.abs(e.movementY) / VELOCITY_THRESHOLD,
+      1,
+    );
+    velocityTarget.z = Math.sqrt(
+      velocityTarget.x * velocityTarget.x + velocityTarget.y * velocityTarget.y,
+    );
+    velocity.lerp(velocityTarget, 0.05);
   }
 
   function onPointerLeave() {
@@ -214,6 +228,14 @@ function init(THREE: Three, orbitSelector: string): (() => void) | undefined {
           (100 * uRatio.value.y * Math.sin(t)) / height,
         );
       }
+      uColor.value.r = 0.5 + 0.5 * Math.cos(timestamp * 15e-4);
+      uColor.value.g = 0;
+      uColor.value.b = 1 - uColor.value.r;
+    } else {
+      uColor.value.r = velocity.z;
+      uColor.value.g = 0;
+      uColor.value.b = 1 - velocity.z;
+      velocity.multiplyScalar(0.95);
     }
     renderer.render(scene, camera);
   }
