@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# StarShipped
 
-## Getting Started
+Star Wars fleet logistics for the Outer Rim. Commission ships, post cargo runs,
+and dispatch the fleet across ten planets — from Tatooine to Kashyyyk.
 
-First, run the development server:
+Originally designed and built in 2018 as a Ruby on Rails app by
+**Mario Borras & Angel Rodriguez**. Rebuilt in 2026 on Next.js, with the
+original ship images preserved as seed data.
+
+**Live:** https://starshipped.vercel.app
+**Demo login:** `guest@gmail.com` · `kessel-run-2268`
+
+## What it does
+
+- **Fleet** — commission ships with a name, container capacity (5–100 CTU),
+  planet location, and an image. Anyone can browse; only a ship's captain can
+  edit or decommission it.
+- **Cargo runs** — post jobs with an origin, destination, pay, and containers
+  needed.
+- **Dispatch** — assign ships to runs (many-to-many), release them when done.
+- **Captains** — every registered user, with their fleet counts.
+
+## Stack
+
+- [Next.js 16](https://nextjs.org) (App Router, server actions) + React 19 + Tailwind 4
+- [Clerk](https://clerk.com) — authentication (Vercel Marketplace integration)
+- [Neon Postgres](https://neon.tech) + [Drizzle ORM](https://orm.drizzle.team) (Vercel Marketplace integration)
+- [Vercel Blob](https://vercel.com/docs/vercel-blob) — ship image storage
+
+## Local development
 
 ```bash
+npm install
+vercel env pull .env.local   # pulls DATABASE_URL, Clerk keys, Blob token
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Database
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run db:push   # push schema in src/db/schema.ts to Neon
+npm run db:seed   # create the guest captain, upload ship images, seed data
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The seed is idempotent — it skips if ships already exist.

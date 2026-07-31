@@ -1,65 +1,77 @@
-import Image from "next/image";
+import Link from "next/link";
+import { getDb } from "@/db";
+import { getFleetStats } from "@/lib/queries";
+import { registry, credits } from "@/lib/format";
+import { HoloViewport } from "@/components/holo-viewport";
 
-export default function Home() {
+export const dynamic = "force-dynamic";
+
+export default async function Home() {
+  const [stats, featured] = await Promise.all([
+    getFleetStats(),
+    getDb().query.ships.findFirst(),
+  ]);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <div className="pt-14 sm:pt-20 space-y-16">
+      <section className="grid lg:grid-cols-[1fr_1.1fr] gap-10 items-center">
+        <div className="space-y-6">
+          <p className="eyebrow">Outer Rim fleet logistics</p>
+          <h1 className="font-display text-3xl sm:text-4xl leading-snug tracking-[0.06em] uppercase">
+            Every ship.
+            <br />
+            Every run.
+            <br />
+            <span className="text-holo">One manifest.</span>
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="text-dim max-w-md text-lg">
+            Commission ships, post cargo runs, and dispatch your fleet across
+            ten planets &mdash; from Tatooine to Kashyyyk.
           </p>
+          <div className="flex flex-wrap gap-3">
+            <Link href="/ships" className="btn-primary">
+              Browse the fleet
+            </Link>
+            <Link href="/jobs" className="btn-ghost">
+              See cargo runs
+            </Link>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <div className="group">
+          <HoloViewport
+            src={featured?.imageUrl ?? null}
+            alt={featured?.name ?? "No ships in dock"}
+            scan="load"
+            priority
+            sizes="(max-width: 1024px) 100vw, 55vw"
+            className="aspect-[16/10]"
+          />
+          {featured && (
+            <div className="flex items-baseline justify-between mt-3">
+              <span className="font-mono text-xs text-dim">
+                {registry(featured.id)} &middot; {featured.name.toUpperCase()}
+              </span>
+              <span className="eyebrow">
+                Docked &middot; <span className="text-holo">{featured.location}</span>
+              </span>
+            </div>
+          )}
         </div>
-      </main>
+      </section>
+
+      <section className="panel grid grid-cols-2 lg:grid-cols-4 divide-x divide-line border-line">
+        {[
+          { label: "Ships in fleet", value: stats.ships },
+          { label: "Fleet capacity", value: `${stats.capacity} CTU` },
+          { label: "Cargo runs", value: stats.jobs },
+          { label: "Credits on the board", value: credits(stats.credits) },
+        ].map((s) => (
+          <div key={s.label} className="p-5 space-y-1">
+            <p className="font-mono text-xl text-holo">{s.value}</p>
+            <p className="eyebrow">{s.label}</p>
+          </div>
+        ))}
+      </section>
     </div>
   );
 }
