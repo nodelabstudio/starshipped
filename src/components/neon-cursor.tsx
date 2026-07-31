@@ -216,11 +216,12 @@ function init(THREE: Three, orbitSelector: string): (() => void) | undefined {
       const target = document.querySelector(orbitSelector);
       if (target) {
         const rect = target.getBoundingClientRect();
+        const r = (Math.min(rect.width, rect.height) / 2) * ORBIT_FIT;
         spline.points[0].set(
           toShaderX(rect.left + rect.width / 2) +
-            ((rect.width / 2) * ORBIT_FIT * uRatio.value.x * Math.cos(t)) / width,
+            (r * uRatio.value.x * Math.cos(t)) / width,
           toShaderY(rect.top + rect.height / 2) +
-            ((rect.height / 2) * ORBIT_FIT * uRatio.value.y * Math.sin(t)) / height,
+            (r * uRatio.value.y * Math.sin(t)) / height,
         );
       } else {
         spline.points[0].set(
