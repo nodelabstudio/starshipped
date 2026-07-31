@@ -123,6 +123,16 @@ body {
   .holo-c { transition: none; }
 }
 
+/* Neon cursor trail (homepage only): black canvas screen-blended over the page. */
+.neon-cursor-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 60;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
 /* ------ Shared UI ------ */
 .eyebrow {
   font-family: var(--font-mono);

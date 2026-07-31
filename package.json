@@ -18,7 +18,9 @@
     "drizzle-orm": "^0.45.2",
     "next": "16.2.12",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "three": "^0.185.1",
+    "threejs-toys": "^0.0.8"
   },
   "devDependencies": {
     "@clerk/backend": "^3.14.0",

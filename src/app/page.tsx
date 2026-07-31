@@ -3,6 +3,7 @@ import { getDb } from "@/db";
 import { getFleetStats } from "@/lib/queries";
 import { registry, credits } from "@/lib/format";
 import { HoloViewport } from "@/components/holo-viewport";
+import { NeonCursor } from "@/components/neon-cursor";
 
 export const dynamic = "force-dynamic";
 
@@ -14,6 +15,7 @@ export default async function Home() {
 
   return (
     <div className="pt-14 sm:pt-20 space-y-16">
+      <NeonCursor />
       <section className="grid lg:grid-cols-[1fr_1.1fr] gap-10 items-center">
         <div className="space-y-6">
           <p className="eyebrow">Outer Rim fleet logistics</p>
