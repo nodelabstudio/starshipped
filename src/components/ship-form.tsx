@@ -30,6 +30,7 @@ export function ShipForm({
           name="name"
           type="text"
           required
+          maxLength={80}
           defaultValue={ship?.name}
           className="field-input"
           placeholder="Millennium Falcon"

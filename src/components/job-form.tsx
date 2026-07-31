@@ -63,6 +63,7 @@ export function JobForm({
           name="name"
           type="text"
           required
+          maxLength={80}
           defaultValue={job?.name}
           className="field-input"
           placeholder="Tibanna Gas Haul"
@@ -76,6 +77,7 @@ export function JobForm({
           id="description"
           name="description"
           rows={3}
+          maxLength={500}
           defaultValue={job?.description ?? ""}
           className="field-input"
           placeholder="What's being hauled, and anything a captain should know."

@@ -12,6 +12,17 @@ import { PLANETS, MIN_CONTAINERS, MAX_CONTAINERS } from "@/lib/planets";
 export type FormState = { error: string } | null;
 
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
+const MAX_NAME_LENGTH = 80;
+const MAX_DESCRIPTION_LENGTH = 500;
+
+// Allowed upload types; blob keys use our own extension, never the client filename.
+const IMAGE_TYPES: Record<string, string> = {
+  "image/jpeg": "jpg",
+  "image/png": "png",
+  "image/webp": "webp",
+  "image/gif": "gif",
+  "image/avif": "avif",
+};
 
 function isUniqueViolation(e: unknown) {
   return (e as { code?: string })?.code === "23505";
@@ -23,8 +34,9 @@ function parsePlanet(value: FormDataEntryValue | null) {
 }
 
 async function uploadImage(file: File) {
-  const blob = await put(`ships/${Date.now()}-${file.name}`, file, {
+  const blob = await put(`ships/${Date.now()}.${IMAGE_TYPES[file.type]}`, file, {
     access: "public",
+    contentType: file.type,
   });
   return blob.url;
 }
@@ -38,6 +50,9 @@ function parseShipForm(
   const containers = Number(formData.get("containers"));
   const location = parsePlanet(formData.get("location"));
   if (!name) return { ok: false, error: "Every ship needs a name." };
+  if (name.length > MAX_NAME_LENGTH) {
+    return { ok: false, error: `Ship names are capped at ${MAX_NAME_LENGTH} characters.` };
+  }
   if (
     !Number.isInteger(containers) ||
     containers < MIN_CONTAINERS ||
@@ -54,8 +69,11 @@ function parseShipForm(
 
   const image = formData.get("image");
   const file = image instanceof File && image.size > 0 ? image : null;
-  if (file && !file.type.startsWith("image/")) {
-    return { ok: false, error: "The visual feed must be an image file." };
+  if (file && !IMAGE_TYPES[file.type]) {
+    return {
+      ok: false,
+      error: "The visual feed must be a JPEG, PNG, WebP, GIF, or AVIF image.",
+    };
   }
   if (file && file.size > MAX_IMAGE_BYTES) {
     return { ok: false, error: "Image is too large — keep it under 5 MB." };
@@ -151,6 +169,15 @@ function parseJobForm(formData: FormData): ParseResult<{
   const cost = Number(formData.get("cost"));
   const containers = Number(formData.get("containers"));
   if (!name) return { ok: false, error: "Every cargo run needs a name." };
+  if (name.length > MAX_NAME_LENGTH) {
+    return { ok: false, error: `Run names are capped at ${MAX_NAME_LENGTH} characters.` };
+  }
+  if (description.length > MAX_DESCRIPTION_LENGTH) {
+    return {
+      ok: false,
+      error: `Cargo details are capped at ${MAX_DESCRIPTION_LENGTH} characters.`,
+    };
+  }
   if (!origin || !destination) {
     return { ok: false, error: "Pick a known planet for origin and destination." };
   }

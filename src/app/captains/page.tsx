@@ -1,14 +1,21 @@
 import Image from "next/image";
-import { clerkClient } from "@clerk/nextjs/server";
+import { auth, clerkClient } from "@clerk/nextjs/server";
 import { getShipCountsByUser } from "@/lib/queries";
 
 export const dynamic = "force-dynamic";
 
+// Full droidmail addresses are for signed-in captains only.
+function maskEmail(email: string) {
+  const [local, domain] = email.split("@");
+  return `${local?.[0] ?? ""}•••@${domain ?? ""}`;
+}
+
 export default async function CaptainsPage() {
   const client = await clerkClient();
-  const [{ data: users }, shipCounts] = await Promise.all([
+  const [{ data: users }, shipCounts, { userId }] = await Promise.all([
     client.users.getUserList({ limit: 100, orderBy: "+created_at" }),
     getShipCountsByUser(),
+    auth(),
   ]);
 
   return (
@@ -43,7 +50,8 @@ export default async function CaptainsPage() {
                   {name}
                 </p>
                 <p className="font-mono text-xs text-dim truncate mt-1">
-                  Droidmail: <span className="text-holo">{email}</span>
+                  Droidmail:{" "}
+                  <span className="text-holo">{userId ? email : maskEmail(email)}</span>
                 </p>
                 <p className="eyebrow mt-1">
                   {shipCount} {shipCount === 1 ? "ship" : "ships"} in fleet
