@@ -15,7 +15,7 @@ export default async function Home() {
 
   return (
     <div className="pt-14 sm:pt-20 space-y-16">
-      <NeonCursor orbitSelector="#hero-copy" />
+      <NeonCursor orbitSelector="#hero-copy" orbitOffsetX={-100} />
       <section className="grid lg:grid-cols-[1fr_1.1fr] gap-10 items-center">
         <div id="hero-copy" className="space-y-6">
           <p className="eyebrow">Outer Rim fleet logistics</p>

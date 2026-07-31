@@ -15,6 +15,11 @@
   --font-mono: var(--font-stm);
 }
 
+html,
+body {
+  overflow-x: clip;
+}
+
 body {
   background-color: var(--color-void);
   color: var(--color-ink);

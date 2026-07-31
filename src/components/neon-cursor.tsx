@@ -5,7 +5,13 @@ import { useEffect } from "react";
 // Neon cursor trail, adapted from Kevin Levron's threejs-toys neonCursor
 // (https://codepen.io/soju22/pen/wvyBorP, ISC license). Vendored so the idle
 // orbit can track a DOM element, the color stays fixed, and teardown is real.
-export function NeonCursor({ orbitSelector }: { orbitSelector: string }) {
+export function NeonCursor({
+  orbitSelector,
+  orbitOffsetX = 0,
+}: {
+  orbitSelector: string;
+  orbitOffsetX?: number;
+}) {
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     if (!window.matchMedia("(pointer: fine)").matches) return;
@@ -13,13 +19,13 @@ export function NeonCursor({ orbitSelector }: { orbitSelector: string }) {
     let destroy: (() => void) | undefined;
     let cancelled = false;
     import("three").then((THREE) => {
-      if (!cancelled) destroy = init(THREE, orbitSelector);
+      if (!cancelled) destroy = init(THREE, orbitSelector, orbitOffsetX);
     });
     return () => {
       cancelled = true;
       destroy?.();
     };
-  }, [orbitSelector]);
+  }, [orbitSelector, orbitOffsetX]);
 
   return null;
 }
@@ -32,8 +38,7 @@ const CURVE_LERP = 0.5;
 const RADIUS1 = 5;
 const RADIUS2 = 30;
 const ORBIT_TIME_COEF = 0.0025;
-const ORBIT_FIT = 0.8; // idle orbit radius as a fraction of the target's half-size
-const ORBIT_OFFSET_X = -100; // px shift of the orbit center from the target's center
+const ORBIT_FIT = 0.95; // idle orbit radius as a fraction of the target's half-size
 const ORBIT_MARGIN = 16; // px the orbit's edge keeps clear of the viewport edge
 const VELOCITY_THRESHOLD = 10;
 
@@ -127,7 +132,11 @@ const VERTEX_SHADER = `
   }
 `;
 
-function init(THREE: Three, orbitSelector: string): (() => void) | undefined {
+function init(
+  THREE: Three,
+  orbitSelector: string,
+  orbitOffsetX: number,
+): (() => void) | undefined {
   const canvas = document.createElement("canvas");
   canvas.className = "neon-cursor-canvas";
   document.body.appendChild(canvas);
@@ -220,7 +229,7 @@ function init(THREE: Three, orbitSelector: string): (() => void) | undefined {
         const rect = target.getBoundingClientRect();
         const r = (Math.min(rect.width, rect.height) / 2) * ORBIT_FIT;
         const cx = Math.max(
-          rect.left + rect.width / 2 + ORBIT_OFFSET_X,
+          rect.left + rect.width / 2 + orbitOffsetX,
           r + ORBIT_MARGIN,
         );
         spline.points[0].set(
