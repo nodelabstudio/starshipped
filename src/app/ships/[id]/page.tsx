@@ -1,3 +1,4 @@
+import { ViewTransition } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { auth } from "@clerk/nextjs/server";
@@ -39,12 +40,16 @@ export default async function ShipPage({
           </h1>
         </div>
         <div className="flex gap-3">
-          <Link href="/ships" className="btn-ghost">
+          <Link href="/ships" transitionTypes={["warp"]} className="btn-ghost">
             Back to fleet
           </Link>
           {isOwner && (
             <>
-              <Link href={`/ships/${ship.id}/edit`} className="btn-ghost">
+              <Link
+                href={`/ships/${ship.id}/edit`}
+                transitionTypes={["warp"]}
+                className="btn-ghost"
+              >
                 Edit
               </Link>
               <DeleteButton
@@ -59,14 +64,17 @@ export default async function ShipPage({
 
       <div className="grid lg:grid-cols-[1.2fr_1fr] gap-8">
         <div className="group">
-          <HoloViewport
-            src={ship.imageUrl}
-            alt={ship.name}
-            scan="load"
-            priority
-            sizes="(max-width: 1024px) 100vw, 60vw"
-            className="aspect-[16/10]"
-          />
+          {/* Same name as the fleet-card viewport so the image morphs in. */}
+          <ViewTransition name={`ship-${ship.id}`} share="auto" default="none">
+            <HoloViewport
+              src={ship.imageUrl}
+              alt={ship.name}
+              scan="load"
+              priority
+              sizes="(max-width: 1024px) 100vw, 60vw"
+              className="aspect-[16/10]"
+            />
+          </ViewTransition>
         </div>
         <div className="space-y-6">
           <div className="panel p-5 space-y-4">

@@ -15,10 +15,14 @@ const LINKS = [
 export function Nav() {
   const pathname = usePathname();
   return (
-    <header className="border-b border-line bg-void sticky top-0 z-40">
+    <header
+      className="border-b border-line bg-void sticky top-0 z-40"
+      style={{ viewTransitionName: "site-header" }}
+    >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 h-14 flex items-center gap-6">
         <Link
           href="/"
+          transitionTypes={["warp"]}
           className="font-display text-sm tracking-[0.3em] text-ink hover:text-holo transition-colors"
         >
           STARSHIPPED
@@ -31,6 +35,7 @@ export function Nav() {
               <Link
                 key={link.href}
                 href={link.href}
+                transitionTypes={["warp"]}
                 className={`px-3 py-1.5 font-mono text-xs tracking-[0.15em] uppercase whitespace-nowrap transition-colors ${
                   active
                     ? "text-holo border-b border-holo"

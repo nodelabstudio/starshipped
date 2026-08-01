@@ -139,6 +139,63 @@ body {
   mix-blend-mode: screen;
 }
 
+/* ------ Hyperspace warp: view transitions on tagged navigations ------ */
+:root {
+  --warp-exit: 150ms;
+  --warp-enter: 250ms;
+}
+
+/* Punch to lightspeed: old page scales up, blurs, and fades fast. */
+::view-transition-old(.warp) {
+  animation: var(--warp-exit) ease-in both warp-out;
+}
+/* Drop out of hyperspace: new page decelerates in after the exit ends. */
+::view-transition-new(.warp) {
+  animation: var(--warp-enter) ease-out var(--warp-exit) both warp-in;
+}
+
+@keyframes warp-out {
+  to {
+    transform: scale(1.08);
+    filter: blur(6px);
+    opacity: 0;
+  }
+}
+@keyframes warp-in {
+  from {
+    transform: scale(0.96);
+    filter: blur(6px);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    filter: blur(0);
+    opacity: 1;
+  }
+}
+
+/* The header is the fixed spatial anchor: never animate it, keep it above
+   the warping content, and hide its old snapshot to avoid a double flash. */
+::view-transition-group(site-header) {
+  animation: none;
+  z-index: 100;
+}
+::view-transition-old(site-header) {
+  display: none;
+}
+::view-transition-new(site-header) {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+}
+
 /* ------ Shared UI ------ */
 .eyebrow {
   font-family: var(--font-mono);

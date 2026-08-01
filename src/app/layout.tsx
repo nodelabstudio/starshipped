@@ -1,4 +1,8 @@
+/// <reference types="react/canary" />
+// ^ Loads React canary types project-wide (ViewTransition ships in Next's
+// vendored React canary; @types/react gates it behind this opt-in).
 import type { Metadata } from "next";
+import { ViewTransition } from "react";
 import { Michroma, Saira, Share_Tech_Mono } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
@@ -55,7 +59,17 @@ export default function RootLayout({
         <body className="starfield min-h-full flex flex-col">
           <Nav />
           <main className="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 pb-20">
-            {children}
+            {/* Only "warp"-tagged link navigations animate. Untyped
+                transitions (e.g. router.refresh() when runs settle) must
+                swap instantly, hence default "none" everywhere. */}
+            <ViewTransition
+              enter={{ warp: "warp", default: "none" }}
+              exit={{ warp: "warp", default: "none" }}
+              update={{ warp: "warp", default: "none" }}
+              default="none"
+            >
+              {children}
+            </ViewTransition>
           </main>
           <footer className="border-t border-line bg-void">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 flex flex-wrap gap-x-6 gap-y-1 items-baseline justify-between">

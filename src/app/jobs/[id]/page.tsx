@@ -47,12 +47,16 @@ export default async function JobPage({
           </h1>
         </div>
         <div className="flex gap-3">
-          <Link href="/jobs" className="btn-ghost">
+          <Link href="/jobs" transitionTypes={["warp"]} className="btn-ghost">
             Back to board
           </Link>
           {isOwner && (
             <>
-              <Link href={`/jobs/${job.id}/edit`} className="btn-ghost">
+              <Link
+                href={`/jobs/${job.id}/edit`}
+                transitionTypes={["warp"]}
+                className="btn-ghost"
+              >
                 Edit
               </Link>
               <DeleteButton
