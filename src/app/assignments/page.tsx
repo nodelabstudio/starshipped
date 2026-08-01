@@ -18,6 +18,18 @@ export default async function AssignmentsPage() {
     auth(),
   ]);
 
+  // Only docked ships and open contracts are dispatchable; the server action
+  // re-validates, this just keeps the dropdowns honest.
+  const dockedShips = ships.filter(
+    (s) => !s.assignments.some((a) => a.completedAt === null),
+  );
+  const openJobs = jobs.filter(
+    (j) =>
+      !j.assignments.some((a) => a.completedAt === null) &&
+      !j.assignments.some((a) => a.completedAt !== null),
+  );
+  const canDispatch = dockedShips.length > 0 && openJobs.length > 0;
+
   // In-transit runs first, then delivered; both newest-first (query order).
   const ordered = [
     ...assignments.filter((a) => a.completedAt === null),
@@ -33,14 +45,28 @@ export default async function AssignmentsPage() {
         </h1>
       </div>
 
-      {userId && ships.length > 0 && jobs.length > 0 && (
+      {userId && canDispatch && (
         <div className="panel p-5">
           <p className="eyebrow mb-4">Dispatch a ship</p>
           <AssignForm
-            ships={ships.map((s) => ({ id: s.id, name: s.name }))}
-            jobs={jobs.map((j) => ({ id: j.id, name: j.name }))}
+            ships={dockedShips.map((s) => ({
+              id: s.id,
+              name: s.name,
+              containers: s.containers,
+            }))}
+            jobs={openJobs.map((j) => ({
+              id: j.id,
+              name: j.name,
+              containers: j.containers,
+            }))}
           />
         </div>
+      )}
+      {userId && !canDispatch && ships.length > 0 && jobs.length > 0 && (
+        <p className="font-mono text-xs text-dim tracking-[0.1em]">
+          Nothing eligible to dispatch — every ship is flying or every contract is
+          taken.
+        </p>
       )}
 
       {assignments.length === 0 ? (

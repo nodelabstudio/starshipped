@@ -30,8 +30,14 @@ export default async function JobPage({
   if (!job) notFound();
   const isOwner = userId === job.userId;
 
-  const assignedShipIds = new Set(job.assignments.map((a) => a.ship.id));
-  const availableShips = allShips.filter((s) => !assignedShipIds.has(s.id));
+  // Open contract: nobody en route, nobody has delivered. Only docked ships
+  // can be dispatched; the server action re-validates all of it.
+  const jobIsOpen =
+    !job.assignments.some((a) => a.completedAt === null) &&
+    !job.assignments.some((a) => a.completedAt !== null);
+  const dockedShips = allShips.filter(
+    (s) => !s.assignments.some((a) => a.completedAt === null),
+  );
   const assignedCapacity = job.assignments.reduce(
     (total, a) => total + a.ship.containers,
     0,
@@ -123,11 +129,15 @@ export default async function JobPage({
             ))}
           </div>
         )}
-        {userId && availableShips.length > 0 && (
+        {userId && jobIsOpen && dockedShips.length > 0 && (
           <div className="panel p-5 max-w-2xl">
             <p className="eyebrow mb-4">Dispatch a ship to this run</p>
             <AssignForm
-              ships={availableShips.map((s) => ({ id: s.id, name: s.name }))}
+              ships={dockedShips.map((s) => ({
+                id: s.id,
+                name: s.name,
+                containers: s.containers,
+              }))}
               jobs={[]}
               fixedJobId={job.id}
             />

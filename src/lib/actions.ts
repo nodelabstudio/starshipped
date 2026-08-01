@@ -261,8 +261,33 @@ export async function createAssignment(
     return { error: "Pick both a ship and a cargo run." };
   }
 
-  const job = await getDb().query.jobs.findFirst({ where: eq(jobs.id, jobId) });
-  if (!job) return { error: "That ship or run is no longer on the registry." };
+  const [ship, job] = await Promise.all([
+    getDb().query.ships.findFirst({
+      where: eq(ships.id, shipId),
+      with: { assignments: true },
+    }),
+    getDb().query.jobs.findFirst({
+      where: eq(jobs.id, jobId),
+      with: { assignments: true },
+    }),
+  ]);
+  if (!ship || !job) {
+    return { error: "That ship or run is no longer on the registry." };
+  }
+  if (ship.assignments.some((a) => a.completedAt === null)) {
+    return { error: `${ship.name} is in hyperspace — wait for it to dock.` };
+  }
+  if (job.assignments.some((a) => a.completedAt === null)) {
+    return { error: "That contract is already claimed — a ship is en route." };
+  }
+  if (job.assignments.some((a) => a.completedAt !== null)) {
+    return { error: "That contract has already been fulfilled." };
+  }
+  if (ship.containers < job.containers) {
+    return {
+      error: `${ship.name} only holds ${ship.containers} CTU — this run needs ${job.containers}.`,
+    };
+  }
 
   const departsAt = new Date();
   const arrivesAt = new Date(departsAt.getTime() + travelMs(job.origin, job.destination));

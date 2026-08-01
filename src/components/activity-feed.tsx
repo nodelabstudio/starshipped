@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getRecentActivity } from "@/lib/queries";
+import { credits } from "@/lib/format";
 
 function ago(at: number) {
   const s = Math.max(Math.floor((Date.now() - at) / 1000), 0);
@@ -44,7 +45,8 @@ export async function ActivityFeed() {
               >
                 {e.jobName}
               </Link>{" "}
-              at {e.destination}
+              at {e.destination} &middot;{" "}
+              <span className="text-amber">+{credits(e.cost)}</span>
             </>
           )}{" "}
           &middot; {ago(e.at)}

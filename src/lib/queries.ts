@@ -1,4 +1,4 @@
-import { and, count, desc, eq, isNull, lte, sum } from "drizzle-orm";
+import { and, count, desc, eq, isNotNull, isNull, lte, sum } from "drizzle-orm";
 import { getDb } from "@/db";
 import { ships, jobs, assignments } from "@/db/schema";
 
@@ -40,6 +40,7 @@ export type ActivityEvent = {
   jobName: string;
   origin: string;
   destination: string;
+  cost: number;
 };
 
 export async function getRecentActivity(): Promise<ActivityEvent[]> {
@@ -55,6 +56,7 @@ export async function getRecentActivity(): Promise<ActivityEvent[]> {
       jobName: a.job.name,
       origin: a.job.origin,
       destination: a.job.destination,
+      cost: a.job.cost,
     };
     events.push({ kind: "departed", at: a.departsAt.getTime(), ...base });
     if (a.completedAt) {
@@ -106,6 +108,23 @@ export async function getFleetStats() {
     jobs: jobRow.count,
     credits: Number(jobRow.credits ?? 0),
   };
+}
+
+// Earned credits and delivery count per ship-owner, from completed runs.
+export async function getCaptainStats() {
+  const rows = await getDb()
+    .select({ userId: ships.userId, earned: sum(jobs.cost), deliveries: count() })
+    .from(assignments)
+    .innerJoin(ships, eq(assignments.shipId, ships.id))
+    .innerJoin(jobs, eq(assignments.jobId, jobs.id))
+    .where(isNotNull(assignments.completedAt))
+    .groupBy(ships.userId);
+  return new Map(
+    rows.map((r) => [
+      r.userId,
+      { earned: Number(r.earned ?? 0), deliveries: r.deliveries },
+    ]),
+  );
 }
 
 export async function getShipCountsByUser() {

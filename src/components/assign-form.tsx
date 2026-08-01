@@ -9,8 +9,8 @@ export function AssignForm({
   jobs,
   fixedJobId,
 }: {
-  ships: { id: number; name: string }[];
-  jobs: { id: number; name: string }[];
+  ships: { id: number; name: string; containers: number }[];
+  jobs: { id: number; name: string; containers: number }[];
   fixedJobId?: number;
 }) {
   const [state, formAction, pending] = useActionState<FormState, FormData>(
@@ -32,7 +32,7 @@ export function AssignForm({
             </option>
             {ships.map((s) => (
               <option key={s.id} value={s.id}>
-                {s.name}
+                {s.name} — {s.containers} CTU
               </option>
             ))}
           </select>
@@ -50,7 +50,7 @@ export function AssignForm({
               </option>
               {jobs.map((j) => (
                 <option key={j.id} value={j.id}>
-                  {j.name}
+                  {j.name} — {j.containers} CTU
                 </option>
               ))}
             </select>
