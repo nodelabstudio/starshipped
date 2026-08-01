@@ -8,6 +8,7 @@ const LINKS = [
   { href: "/ships", label: "Fleet" },
   { href: "/jobs", label: "Cargo runs" },
   { href: "/assignments", label: "Dispatch" },
+  { href: "/map", label: "Starmap" },
   { href: "/captains", label: "Captains" },
 ];
 
