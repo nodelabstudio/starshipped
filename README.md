@@ -7,7 +7,7 @@ Originally designed and built in 2018 as a Ruby on Rails app by
 **Mario Borras & Angel Rodriguez**. Rebuilt in 2026 on Next.js, with the
 original ship images preserved as seed data.
 
-**Live:** https://starshipped.vercel.app
+**Live:** https://star.angelrod.dev
 **Demo login:** `guest@gmail.com` · `kessel-run-2268`
 
 ## Screenshots
