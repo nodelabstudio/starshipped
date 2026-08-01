@@ -1,15 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useSyncExternalStore } from "react";
+import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-
-// 1s ticking clock via useSyncExternalStore (the repo's lint rules forbid
-// setState-in-effect). The server snapshot is departsAt, so SSR renders the
-// run at 0% and the client snaps forward on hydration.
-function subscribe(onChange: () => void) {
-  const id = setInterval(onChange, 1000);
-  return () => clearInterval(id);
-}
+import { useNow } from "@/lib/use-now";
 
 function eta(ms: number) {
   const s = Math.max(Math.ceil(ms / 1000), 0);
@@ -29,11 +22,9 @@ export function RunProgress({
 }) {
   const router = useRouter();
   const refreshed = useRef(false);
-  const now = useSyncExternalStore(
-    subscribe,
-    () => Date.now(),
-    () => departsAt,
-  );
+  // Server snapshot is departsAt, so SSR renders the run at 0% and the client
+  // snaps forward on hydration.
+  const now = useNow(departsAt);
 
   const fraction = Math.min(
     Math.max((now - departsAt) / Math.max(arrivesAt - departsAt, 1), 0),

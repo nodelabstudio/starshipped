@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useNow } from "@/lib/use-now";
 
 type MapPlanet = { name: string; x: number; y: number; ships: string[] };
 type MapRoute = {
@@ -51,19 +52,6 @@ function arcPath(a: { x: number; y: number }, b: { x: number; y: number }, pairI
     Math.min(Math.max(dist * 0.18, 24), 80) * (1 + Math.floor(pairIndex / 2) * 0.6);
   const bow = magnitude * (pairIndex % 2 === 0 ? 1 : -1);
   return `M ${a.x} ${a.y} Q ${mx + px * bow} ${my + py * bow} ${b.x} ${b.y}`;
-}
-
-// 1s ticking clock; 0 during SSR so blips render at the path start and snap
-// to real progress on the client.
-function useNow() {
-  return useSyncExternalStore(
-    (onChange) => {
-      const id = setInterval(onChange, 1000);
-      return () => clearInterval(id);
-    },
-    () => Date.now(),
-    () => 0,
-  );
 }
 
 // Active arc with a blip at the run's real progress along the path. The path
@@ -122,7 +110,9 @@ export function GalaxyMap({
   routes: MapRoute[];
 }) {
   const [hovered, setHovered] = useState<string | null>(null);
-  const now = useNow();
+  // 0 during SSR so blips render at the path start and snap forward on the
+  // client.
+  const now = useNow(0);
   const router = useRouter();
   const refreshed = useRef(false);
 
