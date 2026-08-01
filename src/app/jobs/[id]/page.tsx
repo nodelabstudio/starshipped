@@ -119,7 +119,7 @@ export default async function JobPage({
                     arrivesAt={a.arrivesAt.getTime()}
                   />
                 )}
-                {userId && (
+                {userId === a.ship.userId && (
                   <form action={deleteAssignment.bind(null, a.id)}>
                     <button type="submit" className="btn-danger !py-1 !px-3 !text-xs">
                       Release

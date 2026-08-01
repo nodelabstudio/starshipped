@@ -43,3 +43,18 @@ npm run db:seed   # create the guest captain, upload ship images, seed data
 ```
 
 The seed is idempotent — it skips if ships already exist.
+
+## Credits & licenses
+
+- Code: [MIT](LICENSE).
+- Ship renders added in 2026 (`seed/add-fleet-ships.ts`): two CC0 renders by
+  masbt and two public-domain renders by chris-hayes, both via Flickr; the
+  Ebon Hawk image is ["Spaceship" by Ninjagraphy](https://www.flickr.com/photos/ninjagraphy/8621608380)
+  ([CC BY 2.0](https://creativecommons.org/licenses/by/2.0/)). Source URLs are
+  recorded in the script.
+- Fonts: [Aurebesh by SilvinoR](https://github.com/silvinor/font-aurebesh)
+  (OFL-1.1, license bundled at `src/fonts/AUREBESH-LICENSE.md`); Michroma and
+  Share Tech Mono from [Google Fonts](https://fonts.google.com) (OFL-1.1).
+- StarShipped is a fan project for learning and demo purposes. It is not
+  affiliated with, endorsed by, or sponsored by Lucasfilm Ltd. or Disney.
+  Star Wars ship and planet names are trademarks of their respective owners.

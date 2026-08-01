@@ -114,7 +114,7 @@ export default async function AssignmentsPage() {
                   />
                 )}
               </div>
-              {userId && (
+              {userId === a.ship.userId && (
                 <form action={deleteAssignment.bind(null, a.id)}>
                   <button type="submit" className="btn-danger !py-1.5 !px-3 !text-xs">
                     Release

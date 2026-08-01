@@ -310,6 +310,11 @@ export async function createAssignment(
 export async function deleteAssignment(id: number) {
   const { userId } = await auth();
   if (!userId) return;
+  const run = await getDb().query.assignments.findFirst({
+    where: eq(assignments.id, id),
+    with: { ship: true },
+  });
+  if (!run || run.ship.userId !== userId) return;
   await getDb().delete(assignments).where(eq(assignments.id, id));
   revalidatePath("/", "layout");
 }
