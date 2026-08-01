@@ -205,6 +205,22 @@ body {
   color: var(--color-dim);
 }
 
+/* Aurebesh hover-decode: decorative labels render in Aurebesh glyphs and
+   snap to the normal font on hover/focus. The DOM text stays real English —
+   only glyph shapes change — so screen readers are unaffected. font-family
+   isn't animatable; the instant swap is the effect. */
+.aurebesh {
+  font-family: var(--font-aurebesh);
+}
+.aurebesh:hover,
+.aurebesh:focus-visible,
+a:hover .aurebesh,
+a:focus-visible .aurebesh,
+button:hover .aurebesh,
+button:focus-visible .aurebesh {
+  font-family: var(--font-mono);
+}
+
 .btn-primary,
 .btn-ghost,
 .btn-danger {

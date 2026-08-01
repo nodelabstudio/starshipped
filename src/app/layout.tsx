@@ -4,9 +4,11 @@
 import type { Metadata } from "next";
 import { ViewTransition } from "react";
 import { Michroma, Saira, Share_Tech_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import { Nav } from "@/components/nav";
+import { SoundEffects } from "@/components/sound-effects";
 import "./globals.css";
 
 const michroma = Michroma({
@@ -24,6 +26,11 @@ const shareTechMono = Share_Tech_Mono({
   weight: "400",
   subsets: ["latin"],
   variable: "--font-stm",
+});
+
+const aurebesh = localFont({
+  src: "../fonts/Aurebesh.ttf",
+  variable: "--font-aurebesh",
 });
 
 export const metadata: Metadata = {
@@ -54,9 +61,10 @@ export default function RootLayout({
     >
       <html
         lang="en"
-        className={`${michroma.variable} ${saira.variable} ${shareTechMono.variable} h-full antialiased`}
+        className={`${michroma.variable} ${saira.variable} ${shareTechMono.variable} ${aurebesh.variable} h-full antialiased`}
       >
         <body className="starfield min-h-full flex flex-col">
+          <SoundEffects />
           <Nav />
           <main className="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 pb-20">
             {/* Only "warp"-tagged link navigations animate. Untyped

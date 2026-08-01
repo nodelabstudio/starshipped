@@ -13,7 +13,7 @@ export default async function JobsPage() {
     <div className="pt-10 space-y-8">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="eyebrow mb-2">Cargo board</p>
+          <p className="eyebrow aurebesh mb-2">Cargo board</p>
           <h1 className="font-display text-2xl tracking-[0.06em] uppercase">
             Cargo runs
           </h1>

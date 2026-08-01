@@ -39,7 +39,7 @@ export default async function AssignmentsPage() {
   return (
     <div className="pt-10 space-y-8">
       <div>
-        <p className="eyebrow mb-2">Dispatch board</p>
+        <p className="eyebrow aurebesh mb-2">Dispatch board</p>
         <h1 className="font-display text-2xl tracking-[0.06em] uppercase">
           Assignments
         </h1>

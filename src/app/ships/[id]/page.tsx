@@ -40,7 +40,7 @@ export default async function ShipPage({
           </h1>
         </div>
         <div className="flex gap-3">
-          <Link href="/ships" transitionTypes={["warp"]} className="btn-ghost">
+          <Link href="/ships" transitionTypes={["warp"]} data-sfx="warp" className="btn-ghost">
             Back to fleet
           </Link>
           {isOwner && (
@@ -48,6 +48,7 @@ export default async function ShipPage({
               <Link
                 href={`/ships/${ship.id}/edit`}
                 transitionTypes={["warp"]}
+                data-sfx="warp"
                 className="btn-ghost"
               >
                 Edit

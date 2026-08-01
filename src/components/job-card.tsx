@@ -16,6 +16,7 @@ export function JobCard({ job }: { job: JobWithShips }) {
     <Link
       href={`/jobs/${job.id}`}
       transitionTypes={["warp"]}
+      data-sfx="warp"
       className="block panel p-5 space-y-4 hover:border-holo/40 transition-colors"
     >
       <div className="flex items-baseline justify-between gap-4">

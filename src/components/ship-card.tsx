@@ -13,6 +13,7 @@ export function ShipCard({ ship }: { ship: ShipWithRuns }) {
     <Link
       href={`/ships/${ship.id}`}
       transitionTypes={["warp"]}
+      data-sfx="warp"
       className="group block panel hover:border-holo/40 transition-colors"
     >
       {/* Same name as the detail-page viewport so the image morphs across. */}

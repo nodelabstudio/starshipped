@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Show, UserButton } from "@clerk/nextjs";
+import { SoundToggle } from "./sound-toggle";
 
 const LINKS = [
   { href: "/ships", label: "Fleet" },
@@ -23,6 +24,7 @@ export function Nav() {
         <Link
           href="/"
           transitionTypes={["warp"]}
+          data-sfx="warp"
           className="font-display text-sm tracking-[0.3em] text-ink hover:text-holo transition-colors"
         >
           STARSHIPPED
@@ -36,6 +38,7 @@ export function Nav() {
                 key={link.href}
                 href={link.href}
                 transitionTypes={["warp"]}
+                data-sfx="warp"
                 className={`px-3 py-1.5 font-mono text-xs tracking-[0.15em] uppercase whitespace-nowrap transition-colors ${
                   active
                     ? "text-holo border-b border-holo"
@@ -48,6 +51,7 @@ export function Nav() {
           })}
         </nav>
         <div className="flex items-center gap-3">
+          <SoundToggle />
           <Show when="signed-out">
             <Link
               href="/sign-in"
