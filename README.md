@@ -10,6 +10,13 @@ original ship images preserved as seed data.
 **Live:** https://starshipped.vercel.app
 **Demo login:** `guest@gmail.com` · `kessel-run-2268`
 
+## Screenshots
+
+|                                                              |                                                          |
+| ------------------------------------------------------------ | -------------------------------------------------------- |
+| ![Home — live fleet stats and activity](docs/screenshots/home.webp) | ![The fleet](docs/screenshots/fleet.webp)                |
+| ![Starmap with live cargo routes](docs/screenshots/starmap.webp)    | ![Ship registry detail](docs/screenshots/ship-detail.webp) |
+
 ## What it does
 
 - **Fleet** — commission ships with a name, container capacity (5–100 CTU),
