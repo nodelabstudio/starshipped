@@ -1,13 +1,15 @@
 import Link from "next/link";
 import { getDb } from "@/db";
-import { getFleetStats } from "@/lib/queries";
+import { getFleetStats, settleArrivals } from "@/lib/queries";
 import { registry, credits } from "@/lib/format";
 import { HoloViewport } from "@/components/holo-viewport";
 import { NeonCursor } from "@/components/neon-cursor";
+import { ActivityFeed } from "@/components/activity-feed";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
+  await settleArrivals();
   const [stats, featured] = await Promise.all([
     getFleetStats(),
     getDb().query.ships.findFirst(),
@@ -74,6 +76,8 @@ export default async function Home() {
           </div>
         ))}
       </section>
+
+      <ActivityFeed />
     </div>
   );
 }

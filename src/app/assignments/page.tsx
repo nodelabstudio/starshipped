@@ -1,20 +1,28 @@
 import Link from "next/link";
 import { auth } from "@clerk/nextjs/server";
-import { getAssignments, getShips, getJobs } from "@/lib/queries";
+import { getAssignments, getShips, getJobs, settleArrivals } from "@/lib/queries";
 import { deleteAssignment } from "@/lib/actions";
 import { RouteLine } from "@/components/route-line";
+import { RunProgress } from "@/components/run-progress";
 import { AssignForm } from "@/components/assign-form";
 import { registry } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
 
 export default async function AssignmentsPage() {
+  await settleArrivals();
   const [assignments, ships, jobs, { userId }] = await Promise.all([
     getAssignments(),
     getShips(),
     getJobs(),
     auth(),
   ]);
+
+  // In-transit runs first, then delivered; both newest-first (query order).
+  const ordered = [
+    ...assignments.filter((a) => a.completedAt === null),
+    ...assignments.filter((a) => a.completedAt !== null),
+  ];
 
   return (
     <div className="pt-10 space-y-8">
@@ -43,10 +51,12 @@ export default async function AssignmentsPage() {
         </div>
       ) : (
         <ul className="space-y-4">
-          {assignments.map((a) => (
+          {ordered.map((a) => (
             <li
               key={a.id}
-              className="panel p-5 grid gap-4 sm:grid-cols-[1fr_1.2fr_auto] sm:items-center"
+              className={`panel p-5 grid gap-4 sm:grid-cols-[1fr_1.2fr_auto] sm:items-center ${
+                a.completedAt ? "opacity-60" : ""
+              }`}
             >
               <div>
                 <Link
@@ -67,6 +77,16 @@ export default async function AssignmentsPage() {
                   {a.job.name}
                 </Link>
                 <RouteLine origin={a.job.origin} destination={a.job.destination} />
+                {a.completedAt ? (
+                  <p className="font-mono text-xs text-amber tracking-[0.15em]">
+                    DELIVERED
+                  </p>
+                ) : (
+                  <RunProgress
+                    departsAt={a.departsAt.getTime()}
+                    arrivesAt={a.arrivesAt.getTime()}
+                  />
+                )}
               </div>
               {userId && (
                 <form action={deleteAssignment.bind(null, a.id)}>

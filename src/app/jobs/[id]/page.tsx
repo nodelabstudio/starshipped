@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { auth } from "@clerk/nextjs/server";
-import { getJob, getShips } from "@/lib/queries";
+import { getJob, getShips, settleArrivals } from "@/lib/queries";
 import { deleteJob, deleteAssignment } from "@/lib/actions";
 import { credits } from "@/lib/format";
 import { RouteLine } from "@/components/route-line";
+import { RunProgress } from "@/components/run-progress";
 import { DeleteButton } from "@/components/delete-button";
 import { AssignForm } from "@/components/assign-form";
 import { ShipCard } from "@/components/ship-card";
@@ -20,6 +21,7 @@ export default async function JobPage({
   const jobId = Number(id);
   if (!Number.isInteger(jobId)) notFound();
 
+  await settleArrivals();
   const [job, allShips, { userId }] = await Promise.all([
     getJob(jobId),
     getShips(),
@@ -93,7 +95,19 @@ export default async function JobPage({
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {job.assignments.map((a) => (
               <div key={a.id} className="space-y-2">
-                <ShipCard ship={a.ship} />
+                {/* getJob loads bare ships; hand the card this run so its
+                    docked/in-transit readout matches the progress bar below. */}
+                <ShipCard ship={{ ...a.ship, assignments: [{ ...a, job }] }} />
+                {a.completedAt ? (
+                  <p className="font-mono text-xs text-amber tracking-[0.15em]">
+                    DELIVERED
+                  </p>
+                ) : (
+                  <RunProgress
+                    departsAt={a.departsAt.getTime()}
+                    arrivesAt={a.arrivesAt.getTime()}
+                  />
+                )}
                 {userId && (
                   <form action={deleteAssignment.bind(null, a.id)}>
                     <button type="submit" className="btn-danger !py-1 !px-3 !text-xs">

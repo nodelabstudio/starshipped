@@ -40,6 +40,11 @@ export const assignments = pgTable(
     jobId: integer("job_id")
       .notNull()
       .references(() => jobs.id, { onDelete: "cascade" }),
+    // timestamptz: neon-http parses plain timestamps in the process's local
+    // timezone, which skews run clocks on non-UTC machines.
+    departsAt: timestamp("departs_at", { withTimezone: true }).defaultNow().notNull(),
+    arrivesAt: timestamp("arrives_at", { withTimezone: true }).defaultNow().notNull(),
+    completedAt: timestamp("completed_at", { withTimezone: true }),
     createdAt: timestamp("created_at").defaultNow().notNull(),
   },
   (table) => [uniqueIndex("assignments_ship_job_unique").on(table.shipId, table.jobId)],

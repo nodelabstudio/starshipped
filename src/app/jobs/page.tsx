@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { Show } from "@clerk/nextjs";
-import { getJobs } from "@/lib/queries";
+import { getJobs, settleArrivals } from "@/lib/queries";
 import { JobCard } from "@/components/job-card";
 
 export const dynamic = "force-dynamic";
 
 export default async function JobsPage() {
+  await settleArrivals();
   const jobs = await getJobs();
 
   return (

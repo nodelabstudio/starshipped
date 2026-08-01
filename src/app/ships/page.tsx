@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { Show } from "@clerk/nextjs";
-import { getShips } from "@/lib/queries";
+import { getShips, settleArrivals } from "@/lib/queries";
 import { ShipCard } from "@/components/ship-card";
 
 export const dynamic = "force-dynamic";
 
 export default async function ShipsPage() {
+  await settleArrivals();
   const ships = await getShips();
 
   return (

@@ -1,12 +1,17 @@
 import Link from "next/link";
 import { credits } from "@/lib/format";
 import { RouteLine } from "./route-line";
-import type { Job, Ship } from "@/db/schema";
+import type { Assignment, Job, Ship } from "@/db/schema";
 
-type JobWithShips = Job & { assignments: { ship: Ship }[] };
+type JobWithShips = Job & { assignments: (Assignment & { ship: Ship })[] };
 
 export function JobCard({ job }: { job: JobWithShips }) {
-  const shipNames = job.assignments.map((a) => a.ship.name);
+  const inTransit = job.assignments
+    .filter((a) => a.completedAt === null)
+    .map((a) => a.ship.name);
+  const delivered = job.assignments
+    .filter((a) => a.completedAt !== null)
+    .map((a) => a.ship.name);
   return (
     <Link
       href={`/jobs/${job.id}`}
@@ -23,13 +28,23 @@ export function JobCard({ job }: { job: JobWithShips }) {
       <RouteLine origin={job.origin} destination={job.destination} />
       <div className="flex items-center justify-between gap-4">
         <span className="eyebrow">{job.containers} CTU needed</span>
-        <span className="eyebrow">
-          {shipNames.length > 0 ? (
-            <>
-              Dispatched: <span className="text-holo">{shipNames.join(", ")}</span>
-            </>
-          ) : (
+        <span className="eyebrow text-right">
+          {inTransit.length === 0 && delivered.length === 0 ? (
             "Unassigned"
+          ) : (
+            <>
+              {inTransit.length > 0 && (
+                <>
+                  In transit: <span className="text-holo">{inTransit.join(", ")}</span>
+                </>
+              )}
+              {inTransit.length > 0 && delivered.length > 0 && " · "}
+              {delivered.length > 0 && (
+                <>
+                  Delivered: <span className="text-amber">{delivered.join(", ")}</span>
+                </>
+              )}
+            </>
           )}
         </span>
       </div>

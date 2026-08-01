@@ -1,10 +1,13 @@
 import Link from "next/link";
-import type { Ship } from "@/db/schema";
+import type { Assignment, Job, Ship } from "@/db/schema";
 import { registry } from "@/lib/format";
 import { HoloViewport } from "./holo-viewport";
 import { CapacityGauge } from "./capacity-gauge";
 
-export function ShipCard({ ship }: { ship: Ship }) {
+type ShipWithRuns = Ship & { assignments?: (Assignment & { job: Job })[] };
+
+export function ShipCard({ ship }: { ship: ShipWithRuns }) {
+  const inTransit = ship.assignments?.find((a) => a.completedAt === null);
   return (
     <Link href={`/ships/${ship.id}`} className="group block panel hover:border-holo/40 transition-colors">
       <HoloViewport
@@ -23,9 +26,15 @@ export function ShipCard({ ship }: { ship: Ship }) {
           </span>
         </div>
         <CapacityGauge containers={ship.containers} />
-        <p className="eyebrow">
-          Docked &middot; <span className="text-holo">{ship.location}</span>
-        </p>
+        {inTransit ? (
+          <p className="eyebrow text-amber">
+            In transit &rarr; {inTransit.job.destination}
+          </p>
+        ) : (
+          <p className="eyebrow">
+            Docked &middot; <span className="text-holo">{ship.location}</span>
+          </p>
+        )}
       </div>
     </Link>
   );

@@ -8,6 +8,7 @@ import { redirect } from "next/navigation";
 import { getDb } from "@/db";
 import { ships, jobs, assignments } from "@/db/schema";
 import { PLANETS, MIN_CONTAINERS, MAX_CONTAINERS } from "@/lib/planets";
+import { travelMs } from "@/lib/starmap";
 
 export type FormState = { error: string } | null;
 
@@ -260,8 +261,14 @@ export async function createAssignment(
     return { error: "Pick both a ship and a cargo run." };
   }
 
+  const job = await getDb().query.jobs.findFirst({ where: eq(jobs.id, jobId) });
+  if (!job) return { error: "That ship or run is no longer on the registry." };
+
+  const departsAt = new Date();
+  const arrivesAt = new Date(departsAt.getTime() + travelMs(job.origin, job.destination));
+
   try {
-    await getDb().insert(assignments).values({ shipId, jobId });
+    await getDb().insert(assignments).values({ shipId, jobId, departsAt, arrivesAt });
   } catch (e) {
     if (isUniqueViolation(e)) {
       return { error: "That ship is already dispatched to that run." };
