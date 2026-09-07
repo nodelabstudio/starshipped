@@ -1,0 +1,527 @@
+/* Spaceport art direction. Instrument scenes keep their own internal styles. */
+.site-shell, .site-main { width: 100%; max-width: 1360px; margin-inline: auto; padding-inline: 40px; }
+.site-main { padding-bottom: 96px; }
+body { -webkit-font-smoothing: antialiased; }
+.starfield::before { opacity: 0.16; }
+.starfield::after { opacity: 0.45; }
+.port-mark { width: 30px; height: 30px; flex-shrink: 0; }
+.port-header { border-bottom: 1px solid #d5dfdd12; background: #080d12ee; backdrop-filter: blur(18px); }
+.site-nav { min-height: 82px; gap: 32px; }
+.site-wordmark { display: inline-flex; align-items: center; gap: 12px; font-size: 13px; letter-spacing: 0.15em; }
+.site-wordmark .port-mark { color: #d7c6a7; width: 29px; height: 29px; }
+.site-nav-links { gap: 12px; justify-content: center; }
+.site-nav-links a { font-family: var(--font-body); font-size: 14px; text-transform: none; letter-spacing: 0.01em; padding: 30px 2px 27px; border-bottom: 2px solid transparent; }
+.site-nav-links a[aria-current='page'] { color: #eee8da; border-color: #cfa775; }
+.site-nav-account { gap: 14px; }
+.site-nav-account > a:not(.btn-primary) { text-transform: none; font: 13px var(--font-body); letter-spacing: 0; }
+.site-nav-account > button { font-size: 9px; letter-spacing: 0.04em; opacity: 0.75; }
+.sound-toggle { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-width: 32px; min-height: 32px; }
+.sound-toggle svg { width: 16px; height: 16px; }
+.btn-primary, .btn-ghost, .btn-danger { font-family: var(--font-body); font-size: 14px; font-weight: 500; letter-spacing: 0.01em; text-transform: none; min-height: 44px; padding: 11px 19px; border-radius: 3px; }
+.btn-primary { clip-path: none; background: #eeb777; color: #15120e; box-shadow: inset 0 1px #fff4; }
+.btn-primary:hover { filter: brightness(1.08); }
+.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-primary > span:last-child { margin-left: 16px; }
+.btn-ghost { color: #deded3; border-color: #a7b4b337; }
+.btn-danger { font-size: 12px; }
+.field-label { font-family: var(--font-body); font-size: 13px; text-transform: none; letter-spacing: 0; color: #c4cbc8; margin-bottom: 8px; }
+.field-input { border-radius: 3px; min-height: 46px; background: #0b131a; border-color: #3c4951; }
+.field-input::placeholder { color: #758690; }
+.eyebrow { text-transform: none; letter-spacing: 0.025em; font-family: var(--font-body); }
+.port-kicker { color: #b2b5a6; font-size: 12px; margin-bottom: 12px; }
+.port-page { padding-top: 58px; }
+.port-page-heading { display: flex; align-items: end; justify-content: space-between; gap: 28px; margin-bottom: 44px; }
+.port-page-heading h1 { font: 400 clamp(24px, 3vw, 38px)/1.3 var(--font-display); letter-spacing: -0.035em; max-width: 950px; overflow-wrap: anywhere; }
+.port-page-heading h1 + p { color: #a3b1b8; font-size: 16px; margin-top: 14px; }
+.port-page-heading > .btn-primary { flex-shrink: 0; }
+.port-section-heading { display: flex; justify-content: space-between; align-items: end; gap: 18px; margin-bottom: 24px; }
+.port-section-heading h2 { font: 400 22px/1.5 var(--font-body); letter-spacing: -0.015em; }
+.port-section-heading .port-kicker { margin-bottom: 5px; }
+.port-section-heading > span { font-size: 12px; color: #92a2aa; }
+.port-text-link { color: #dcd4c3; font-size: 13px; text-decoration: underline; text-decoration-color: #a29c8955; text-underline-offset: 6px; }
+.port-text-link:hover { color: white; text-decoration-color: currentColor; }
+.port-empty { padding: 46px; border: 1px solid #76889229; background: #101a204d; }
+.port-empty h2, .port-empty h3 { font-size: 25px; color: #e1dccc; }
+.port-empty p { color: #a0adb4; max-width: 440px; margin: 12px 0 24px; }
+.port-hero { position: relative; isolation: isolate; min-height: 660px; margin-inline: -40px; overflow: hidden; }
+.port-hero-backdrop { object-fit: cover; object-position: center 52%; opacity: 0.64; z-index: -3; }
+.port-hero-shade { position: absolute; inset: 0; z-index: -2; background: linear-gradient(90deg, #080d12 0%, #080d12c9 23%, #080d1220 65%, #080d1200), linear-gradient(0deg, #080d12 0%, transparent 36%, #080d1222 70%, #080d1233); }
+.port-hero-copy { position: relative; z-index: 3; padding: 145px 0 120px 40px; max-width: 440px; pointer-events: none; }
+.port-hero-overline { display: flex; align-items: center; gap: 10px; font-size: 12px; color: #c7bfad; margin-bottom: 24px; }
+.port-hero-overline .port-mark { width: 21px; height: 21px; }
+.port-hero-copy h1 { font: 400 clamp(42px, 4.65vw, 66px)/1.16 var(--font-display); letter-spacing: -0.065em; color: #f0e9da; }
+.port-hero-copy > p:not(.port-hero-overline) { max-width: 310px; color: #b5c0c2; font-size: 16px; line-height: 1.8; margin-top: 25px; }
+.port-hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 24px; margin-top: 30px; pointer-events: auto; }
+.port-hero-vessel { position: absolute; top: 60px; right: 20px; width: 71%; height: 540px; }
+.port-hero-vessel .ship-study { height: calc(100% - 36px); }
+.hero-vessel-caption { display: flex; justify-content: end; gap: 16px; flex-wrap: wrap; font: 11px var(--font-mono); color: #bfc5c0; padding: 12px 48px 0 25%; }
+.hero-vessel-caption > span + span { color: #9fa69e; }
+.port-hero-bottom { position: absolute; inset: auto 40px 24px; display: flex; justify-content: space-between; color: #8f9b9c; font-size: 11px; }
+.port-hero-bottom > span:last-child { font-family: var(--font-mono); }
+.port-hero-bottom > span:last-child > span { padding-inline: 10px; color: #c49c6b; }
+.ship-study--hangar { position: relative; border: 0; background: transparent; }
+.ship-study--hangar .ship-stage { background: transparent; }
+.ship-study--hangar .ship-toolbar { position: absolute; right: 20px; top: 15px; z-index: 5; border: 0; padding: 0; min-height: 0; background: transparent; }
+.ship-study--hangar .ship-toolbar > .scene-signal { display: none; }
+.ship-study--hangar .scene-segment { background: #0a11199c; border-color: #86969c33; backdrop-filter: blur(10px); }
+.ship-study--hangar .scene-segment button { color: #b3bfc2; font: 12px var(--font-body); }
+.ship-study--hangar .scene-segment button[aria-pressed='true'] { color: #f1e7d3; background: #65727133; box-shadow: inset 0 0 0 1px #abb3a64d; }
+.ship-study--hangar .holo-c, .ship-study--hangar .ship-study-caption { display: none; }
+.ship-study--hangar .scene-navigation button, .ship-study--hangar .ship-cargo button { background: #0b121acc; border-color: #85959b38; color: #c7cfcb; font-family: var(--font-body); font-size: 12px; }
+.ship-study--hangar .ship-attribution { background: transparent; border: 0; font-size: 9px; opacity: 0.75; padding: 5px 20px; }
+.port-hero-vessel .ship-study--hangar .ship-stage { height: calc(100% - 20px); aspect-ratio: auto; }
+.port-hero-vessel .ship-study--hangar .ship-cargo { display: none; }
+.port-hero-vessel .ship-photograph { width: min(76%, 600px); height: 76%; margin: auto; border: 0; background: transparent; }
+.port-hero-vessel .ship-photograph img { object-fit: scale-down; }
+.port-hero-vessel .ship-photograph .holo-grid, .port-hero-vessel .ship-photograph .holo-scan, .port-hero-vessel .ship-photograph .holo-c { display: none; }
+.ship-study--hangar:fullscreen { background: #080f17; }
+.ship-study--hangar:fullscreen .ship-stage { height: auto; }
+.ship-study--hangar:fullscreen .ship-toolbar { top: 20px; }
+.hangar-photograph { border: 0; background: #070e14; }
+.hangar-photograph img { object-fit: contain; filter: saturate(0.72); }
+.hangar-photograph .holo-c, .hangar-photograph .holo-grid, .hangar-photograph .holo-scan { display: none; }
+.port-operating-strip { display: grid; grid-template-columns: repeat(4, 1fr); border-block: 1px solid #b5c1bd24; padding: 26px 0; gap: 24px; }
+.port-operating-strip > * { display: grid; gap: 6px; }
+.port-operating-strip strong { font: 400 28px var(--font-mono); color: #e7e0d1; }
+.port-operating-strip strong small { font-size: 13px; color: #b9b6a8; }
+.port-operating-strip > * > span { font-size: 12px; color: #8f9fa5; }
+.port-operating-strip a:hover strong { color: #eeb777; }
+.port-home-lower { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 65px; margin-top: 60px; }
+.port-activity ol { list-style: none; margin: 0 0 20px; padding: 0; }
+.port-activity li { display: flex; gap: 14px; padding: 18px 0; border-bottom: 1px solid #9ca9a41c; }
+.port-activity li:first-child { padding-top: 2px; }
+.activity-symbol { color: #bec4bd; font: 20px var(--font-body); }
+.activity-symbol.delivered { color: #c3a77e; }
+.port-activity li > div > a { font-size: 14px; color: #deded2; }
+.port-activity li p { color: #8f9fa8; font-size: 12px; line-height: 1.65; margin: 5px 0; }
+.port-activity li p a { color: #bac8ca; }
+.port-activity li small { font: 10px var(--font-mono); color: #b8a784; }
+.port-log-empty { font-size: 14px; color: #a2afb5; padding: 20px 0; }
+.fleet-tools { display: flex; align-items: end; gap: 24px; margin-bottom: 26px; }
+.fleet-search { flex: 1; max-width: 440px; }
+.fleet-tools label > span { display: block; margin-bottom: 7px; font-size: 11px; color: #a0aead; }
+.fleet-tools input, .fleet-tools select { height: 42px; border: 1px solid #72848c40; background: #10181f; color: #d3d9d4; border-radius: 3px; padding: 8px 12px; font-size: 13px; width: 100%; }
+.fleet-availability { min-width: 150px; }
+.spaceport-switch { display: flex; gap: 3px; padding: 3px; margin-left: auto; border: 1px solid #74878f40; border-radius: 3px; }
+.spaceport-switch button { min-height: 34px; padding: 6px 18px; font-size: 13px; color: #90a0a8; cursor: pointer; }
+.spaceport-switch button[aria-pressed='true'] { background: #e3ddcd; color: #172128; border-radius: 2px; }
+.hangar-layout { display: grid; grid-template-columns: minmax(0, 1fr) 290px; border-block: 1px solid #8a9aa033; }
+.hangar-presentation { min-width: 0; }
+.hangar-scene { position: relative; isolation: isolate; background: #0b131b; }
+.hangar-backdrop { object-fit: cover; opacity: 0.28; z-index: -2; }
+.hangar-scene::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, #0b131b66, transparent); z-index: -1; }
+.hangar-bay { position: absolute; z-index: 4; top: 24px; left: 24px; display: grid; gap: 6px; font: 11px var(--font-mono); color: #c1bda9; pointer-events: none; }
+.hangar-bay span { color: #8d9b9d; font: 11px var(--font-body); }
+.hangar-scene .hangar-photograph { min-height: 420px; }
+.hangar-identity { display: grid; grid-template-columns: 1fr auto; gap: 18px 32px; padding: 28px 24px; align-items: center; }
+.hangar-identity h2 { font: 400 23px/1.5 var(--font-display); letter-spacing: -0.025em; overflow-wrap: anywhere; }
+.hangar-identity .port-kicker { margin-bottom: 7px; }
+.hangar-capacity { display: grid; text-align: right; gap: 4px; }
+.hangar-capacity strong { font: 30px var(--font-mono); }
+.hangar-capacity span { font-size: 11px; color: #90a4ac; }
+.hangar-identity .btn-primary { justify-self: start; }
+.hangar-roster { border-left: 1px solid #8a9aa029; background: #0b131a; min-height: 0; }
+.roster-heading { display: flex; justify-content: space-between; font-size: 11px; color: #9aabae; padding: 22px 18px; border-bottom: 1px solid #83929a29; }
+.hangar-roster ul { max-height: 628px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #45545c #0b131a; }
+.roster-vessel { display: flex; width: 100%; padding: 15px 14px; gap: 12px; align-items: center; text-align: left; border-bottom: 1px solid #7189951a; border-left: 2px solid transparent; cursor: pointer; }
+.roster-vessel:hover { background: #18232a; }
+.roster-vessel[aria-pressed='true'] { background: #1b262b; border-left-color: #d2ae7e; }
+.roster-vessel .ship-portrait { width: 66px; height: 45px; flex-shrink: 0; aspect-ratio: auto; }
+.roster-vessel-copy { flex: 1; min-width: 0; }
+.roster-vessel-copy strong { display: block; font-size: 13px; line-height: 1.45; font-weight: 500; color: #c7d0ce; }
+.roster-vessel-copy > span { display: block; font-size: 11px; margin-top: 5px; color: #8ca0a7; }
+.vessel-status { width: 4px; height: 4px; border-radius: 50%; background: #829888; }
+.vessel-status.is-transit { background: #e8b16c; box-shadow: 0 0 8px #e8b16c4d; }
+.ship-portrait { position: relative; aspect-ratio: 16/10; overflow: hidden; background: #101820; }
+.ship-portrait-image { object-fit: cover; filter: saturate(0.67) contrast(0.93); transition: filter 220ms; }
+.ship-portrait::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(0deg, #0a13196e, transparent 55%); box-shadow: inset 0 0 35px #08101833; }
+.ship-portrait--studio .ship-portrait-image { object-fit: contain; filter: none; }
+.ship-portrait-empty { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 12px; color: #809298; font-size: 11px; }
+.ship-portrait-empty .port-mark { width: 50px; height: 50px; opacity: 0.5; }
+.fleet-gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 38px 24px; }
+.gallery-vessel { min-width: 0; }
+.gallery-vessel:hover .ship-portrait-image { filter: saturate(0.95); }
+.gallery-vessel-heading { display: flex; justify-content: space-between; gap: 12px; padding-top: 15px; }
+.gallery-vessel-heading h2 { font-size: 17px; color: #e2dece; }
+.gallery-vessel-heading > span { font: 10px var(--font-mono); padding-top: 5px; white-space: nowrap; color: #82989e; }
+.gallery-vessel > p { display: flex; justify-content: space-between; gap: 12px; margin-top: 7px; color: #94a2a6; font-size: 12px; }
+.cargo-board-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; border-top: 1px solid #9ea9a22e; padding-top: 22px; margin-bottom: 25px; }
+.cargo-board-heading h2 { font-size: 18px; }
+.cargo-board-heading h2 span { font: 12px var(--font-mono); color: #a69472; margin-left: 8px; }
+.cargo-board-heading p { font: 12px var(--font-mono); color: #bba98d; }
+.manifest-board { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
+.manifest-board > :only-child { max-width: 880px; grid-column: 1/-1; width: 100%; }
+.cargo-manifest { position: relative; background: #e5dfd0; color: #28312f; padding: 28px 32px 24px; border-radius: 2px; box-shadow: 0 12px 48px #0002; }
+.cargo-manifest::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 5px; background: repeating-linear-gradient(0deg, #786d551c 0 12px, transparent 12px 22px); }
+.manifest-masthead { display: flex; align-items: center; justify-content: space-between; gap: 20px; border-bottom: 1px solid #686e5745; padding-bottom: 16px; font: 10px var(--font-mono); color: #596250; }
+.manifest-masthead > span:first-child { display: flex; align-items: center; gap: 9px; font: 13px var(--font-body); font-weight: 500; }
+.manifest-masthead .port-mark { width: 24px; height: 24px; }
+.manifest-heading { padding: 24px 0 12px; }
+.manifest-heading p { font-size: 11px; color: #6b6e5d; margin-bottom: 9px; }
+.manifest-heading h2 { font: 500 27px/1.3 var(--font-body); letter-spacing: -0.03em; overflow-wrap: anywhere; }
+.manifest-route { display: grid; grid-template-columns: 1fr 0.5fr 1fr; align-items: center; margin: 8px 0 25px; }
+.manifest-route > div { display: grid; justify-items: center; text-align: center; }
+.world-mark { display: block; width: 108px; height: 108px; }
+.world-mark img { width: 100%; height: 100%; object-fit: contain; }
+.world-unknown { display: block; border: 1px dashed currentColor; border-radius: 50%; width: 60%; height: 60%; margin: 20%; opacity: 0.25; }
+.manifest-route small { color: #666d61; font-size: 10px; margin: 0 0 6px; }
+.manifest-route strong { font: 500 21px var(--font-body); }
+.manifest-route-path { display: flex; align-items: center; color: #657367; padding-top: 36px; }
+.manifest-route-path i { height: 1px; flex: 1; background: #81897566; }
+.manifest-route-path > span { padding-inline: 7px; }
+.manifest-description { font-size: 13px; line-height: 1.7; color: #62695e; margin-bottom: 24px; max-width: 540px; }
+.manifest-measures { display: grid; grid-template-columns: 1fr 1fr; border-block: 1px solid #6c735b45; padding: 18px 0; gap: 20px; }
+.manifest-measures small { display: block; font-size: 11px; color: #68705d; margin-bottom: 6px; }
+.manifest-measures strong { font: 24px var(--font-mono); color: #303d35; }
+.manifest-measures strong span { font-size: 12px; }
+.manifest-foot { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; padding-top: 20px; }
+.manifest-barcode { display: block; width: 52px; height: 18px; background: repeating-linear-gradient(90deg, #58634f 0 1px, transparent 1px 3px, #58634f 3px 6px, transparent 6px 8px, #58634f 8px 9px, transparent 9px 13px); opacity: 0.55; }
+.manifest-foot > span:not(.manifest-barcode) { font: 9px var(--font-mono); color: #70735f; }
+.manifest-action { margin-left: auto; font-size: 12px; color: #293d31; padding: 6px 0; border-bottom: 1px solid #6976608c; }
+.manifest-action span { margin-left: 9px; }
+.manifest-action:hover { color: #080e0b; }
+.port-active-cargo, .port-archive, .dispatch-log, .active-flights { margin-top: 52px; }
+.port-archive { border-block: 1px solid #8a9e9e30; }
+.port-archive summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 23px 0; cursor: pointer; font-size: 16px; list-style: none; }
+.port-archive summary::-webkit-details-marker { display: none; }
+.port-archive summary > span:last-child { color: #91a4a8; font-size: 12px; }
+.port-archive summary i { display: inline-block; margin-left: 30px; font-size: 19px; font-style: normal; }
+.port-archive[open] summary i { transform: rotate(45deg); }
+.archive-table > a, .dispatch-log-row { display: grid; grid-template-columns: minmax(0, 1fr) auto auto auto; align-items: center; gap: 28px; padding: 20px 0; border-top: 1px solid #82939126; font: 12px var(--font-mono); color: #a8b6b9; }
+.archive-table > a:hover { background: #abb7b108; }
+.archive-table strong { display: block; font: 400 15px var(--font-body); color: #dddccc; }
+.archive-table small { display: block; margin-top: 6px; font: 12px var(--font-body); color: #91a4aa; }
+.archive-status { color: #a8b3a1; font: 11px var(--font-body); }
+.archive-status::before { content: '✓'; margin-right: 8px; }
+.dispatch-summary { display: grid; grid-template-columns: auto auto; gap: 5px 12px; align-items: baseline; }
+.dispatch-summary strong { font: 24px var(--font-mono); }
+.dispatch-summary span { font-size: 12px; color: #93a5a9; }
+.dispatch-welcome { display: grid; grid-template-columns: 1fr 0.8fr; border-block: 1px solid #81949338; padding: 38px 0; gap: 30px; }
+.dispatch-welcome h2 { font: 400 29px var(--font-body); color: #dfddcd; }
+.dispatch-welcome p:not(.port-kicker) { font-size: 14px; color: #9cabb2; margin: 12px 0 24px; }
+.dispatch-welcome-art { display: grid; justify-items: center; align-content: center; gap: 18px; background: radial-gradient(ellipse, #51655217, transparent 65%); }
+.dispatch-welcome-art > span:last-child { font: 10px var(--font-mono); color: #84978c; }
+.dock-outline { display: block; width: 110px; height: 60px; border: 1px solid #a4b3a551; border-top: 0; transform: perspective(200px) rotateX(45deg); box-shadow: inset 0 -3px #d6b78230, 0 12px 45px #aeb8860d; position: relative; }
+.dock-outline::before { content: ''; position: absolute; top: -18px; left: 28px; width: 52px; height: 24px; border: 1px solid #7c90804d; border-bottom: 0; }
+.dispatch-composer { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); background: #101920; border: 1px solid #9faeaa2e; border-radius: 4px; overflow: hidden; }
+.dispatch-inputs { display: grid; align-content: start; gap: 22px; padding: 36px; }
+.dispatch-inputs > .port-kicker { margin: 0 0 -14px; }
+.dispatch-inputs h2 { font: 400 29px/1.4 var(--font-body); letter-spacing: -0.02em; }
+.dispatch-inputs > .btn-primary { justify-self: start; }
+.dispatch-fit { display: grid; grid-template-columns: 1fr auto; gap: 9px; padding-block: 16px; border-block: 1px solid #83989630; font-size: 13px; color: #c2d0c5; }
+.dispatch-fit p, .dispatch-fit small { grid-column: 1/-1; color: #91a2aa; font-size: 12px; line-height: 1.7; }
+.dispatch-fit strong { font: 12px var(--font-mono); }
+.dispatch-fit meter { grid-column: 1/-1; width: 100%; height: 6px; }
+.dispatch-fit meter::-webkit-meter-bar { background: #293939; border: 0; }
+.dispatch-fit meter::-webkit-meter-optimum-value { background: #b8ad89; }
+.dispatch-preview { position: relative; background: #070e14; border-left: 1px solid #81969522; padding: 28px; }
+.dispatch-preview > .ship-portrait { height: 240px; width: 100%; background: transparent; }
+.dispatch-preview-empty { height: 240px; display: grid; justify-items: center; align-content: center; gap: 25px; color: #82969d; font-size: 12px; }
+.dispatch-preview-name small { display: block; color: #8a9e9f; font-size: 11px; margin-bottom: 8px; }
+.dispatch-preview-name strong { font: 400 20px var(--font-display); letter-spacing: -0.035em; }
+.dispatch-preview-route { display: grid; grid-template-columns: 1fr 0.5fr 1fr; align-items: center; text-align: center; margin-top: 14px; }
+.dispatch-preview-route > div { display: grid; justify-items: center; gap: 4px; }
+.dispatch-preview-route .world-mark { width: 76px; height: 76px; }
+.dispatch-preview-route small { font-size: 10px; color: #819599; }
+.dispatch-preview-route strong { font-size: 14px; font-weight: 400; }
+.departure-path { color: #9fbeaa; border-bottom: 1px dashed #93aaa144; animation: route-appear 350ms ease-out; }
+.dispatch-preview-time { margin-top: 24px; text-align: center; font: 11px var(--font-mono); color: #b0aa93; }
+.flight-row { display: grid; grid-template-columns: 1fr 1fr auto; align-items: center; gap: 30px; padding: 24px 0; border-block: 1px solid #91a29b26; }
+.flight-vessel { display: flex; align-items: center; gap: 16px; }
+.flight-vessel .ship-portrait { width: 120px; flex-shrink: 0; }
+.flight-vessel small { display: block; font: 11px var(--font-mono); color: #859b9f; margin-bottom: 6px; }
+.flight-vessel strong { font-size: 16px; font-weight: 400; }
+.flight-contract { color: #c7cec4; font-size: 14px; }
+.flight-row > div > p { display: flex; gap: 12px; margin: 8px 0 12px; font-size: 13px; color: #8eaaa9; }
+.dispatch-log-row { grid-template-columns: 1fr minmax(190px, 0.8fr) auto auto; }
+.log-route { display: flex; justify-content: space-between; gap: 12px; font-size: 11px; }
+.log-route > span { color: #a8b7a0; }
+.log-release { border-bottom: 1px solid #e7a09a66; color: #d2a49b; padding: 5px 0; font-size: 11px; cursor: pointer; }
+.dispatch-receipt { position: fixed; z-index: 70; right: 26px; bottom: 26px; width: 370px; max-width: calc(100vw - 32px); background: #192720; border: 1px solid #b8c19970; box-shadow: 0 16px 60px #0008; padding: 24px; display: flex; gap: 20px; border-radius: 4px; }
+.dispatch-receipt small { display: block; color: #c4c6a4; font-size: 11px; margin-bottom: 8px; }
+.dispatch-receipt strong { display: block; font-size: 17px; font-weight: 500; }
+.dispatch-receipt p { color: #a9bbae; font-size: 13px; margin: 7px 0; }
+.dispatch-receipt a { color: #dedab5; font-size: 12px; text-decoration: underline; text-underline-offset: 4px; }
+.dispatch-receipt > button { margin-left: auto; align-self: start; color: #aeb7a4; min-width: 28px; cursor: pointer; }
+.receipt-flight { width: 30px; min-width: 30px; overflow: hidden; border-bottom: 1px solid #95b797; align-self: center; }
+.receipt-flight span { display: block; color: #d5c393; animation: receipt-departure 900ms ease-in-out; }
+.port-footer { border-top: 1px solid #94a2a028; padding-block: 32px; }
+.port-footer .site-shell { display: flex; justify-content: space-between; align-items: center; gap: 25px; }
+.port-footer-brand { display: flex; align-items: center; gap: 12px; font: 10px var(--font-display); letter-spacing: 0.15em; color: #c2c6b9; }
+.port-footer p { font-size: 12px; line-height: 1.8; color: #9aa9a8; }
+.port-footer p span { font: 10px var(--font-mono); color: #768e96; }
+.port-footer-credit { text-align: right; font-size: 11px !important; }
+.captain-roster { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 48px; border-top: 1px solid #8a9e9e30; }
+.captain-record { padding: 28px 0; border-bottom: 1px solid #8a9e9e30; }
+.captain-avatar { border-radius: 50%; filter: saturate(0.7); }
+.captain-name { font: 500 17px var(--font-body); color: #e0dccd; }
+@keyframes route-appear { from { opacity: 0; transform: scaleX(0.6); } to { opacity: 1; transform: scaleX(1); } }
+@keyframes receipt-departure { from { transform: translateX(-35px); } to { transform: translateX(0); } }
+@keyframes warp-out { to { opacity: 0; transform: translateY(-4px); } }
+@keyframes warp-in { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 1100px) {
+  .site-nav { gap: 20px; }
+  .site-nav-links { gap: 10px; }
+  .site-nav-links a { font-size: 13px; }
+  .site-wordmark { font-size: 11px; gap: 8px; }
+  .site-nav-account { gap: 10px; }
+  .sound-toggle-copy { display: none; }
+  .port-hero-vessel { right: 0; width: 68%; top: 80px; height: 470px; }
+  .port-hero-copy { max-width: 380px; }
+  .port-hero-copy h1 { font-size: 48px; }
+  .port-home-lower { gap: 30px; }
+  .hangar-layout { grid-template-columns: minmax(0, 1fr) 245px; }
+  .hangar-identity h2 { font-size: 19px; }
+  .manifest-board { grid-template-columns: 1fr; }
+  .manifest-board > :only-child { max-width: none; }
+}
+@media (max-width: 900px) {
+  .site-shell, .site-main { padding-inline: 24px; }
+  .site-nav { grid-template-columns: 1fr auto; gap: 0; padding-top: 18px; }
+  .site-nav-links { grid-column: 1/-1; grid-row: 2; justify-content: start; padding-top: 12px; }
+  .site-nav-links a { padding: 9px 12px; }
+  .site-nav-account > button { display: inline-flex; }
+  .port-hero { margin-inline: -24px; min-height: 580px; }
+  .port-hero-copy { padding-left: 24px; padding-top: 130px; max-width: 350px; }
+  .port-hero-copy h1 { font-size: 43px; }
+  .port-hero-vessel { width: 62%; right: 0; top: 125px; height: 390px; }
+  .port-hero-copy > p:not(.port-hero-overline) { max-width: 240px; font-size: 14px; }
+  .port-hero-actions { gap: 18px; }
+  .hero-vessel-caption { font-size: 9px; padding-right: 65px; }
+  .port-hero-bottom { left: 24px; right: 24px; }
+  .port-home-lower { grid-template-columns: 1fr; gap: 48px; }
+  .port-activity ol { display: grid; grid-template-columns: 1fr 1fr; gap: 0 30px; }
+  .hangar-layout { grid-template-columns: minmax(0, 1fr); }
+  .hangar-roster { border-left: 0; border-top: 1px solid #8a9aa029; }
+  .hangar-roster ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); max-height: 310px; }
+  .fleet-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .dispatch-composer { grid-template-columns: 1fr 1fr; }
+  .dispatch-inputs, .dispatch-preview { padding: 25px; }
+  .dispatch-inputs h2 { font-size: 25px; }
+  .flight-row { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 680px) {
+  .site-shell, .site-main { padding-inline: 18px; }
+  .site-main { padding-bottom: 60px; }
+  .site-nav { padding-top: 14px; min-height: 0; }
+  .site-wordmark { font-size: 10px; letter-spacing: 0.12em; gap: 7px; }
+  .site-wordmark .port-mark { width: 23px; height: 23px; }
+  .site-nav-account { gap: 10px; }
+  .site-nav-account > button { display: inline-flex; }
+  .site-nav-account > a:not(.btn-primary) { font-size: 12px; }
+  .site-nav-account .btn-primary { min-height: 32px; padding: 5px 9px !important; font-size: 11px !important; letter-spacing: 0 !important; }
+  .site-nav-links { gap: 6px; padding-top: 10px; padding-bottom: 0; margin-inline: -5px; }
+  .site-nav-links a { font-size: 12px; padding: 10px 8px; }
+  .port-page { padding-top: 35px; }
+  .port-page-heading { align-items: start; flex-direction: column; gap: 22px; margin-bottom: 30px; }
+  .port-page-heading h1 { font-size: 26px; letter-spacing: -0.04em; }
+  .port-page-heading h1 + p { font-size: 14px; line-height: 1.7; }
+  .port-hero { margin-inline: -18px; min-height: 790px; }
+  .port-hero-backdrop { object-position: 64% 50%; opacity: 0.4; }
+  .port-hero-shade { background: linear-gradient(180deg, #080d1299, #080d1240 40%, #080d1260 65%, #080d12); }
+  .port-hero-copy { padding: 52px 26px 0; max-width: 100%; }
+  .port-hero-overline { font-size: 11px; margin-bottom: 19px; }
+  .port-hero-copy h1 { font-size: clamp(38px, 10.8vw, 53px); line-height: 1.2; }
+  .port-hero-copy > p:not(.port-hero-overline) { max-width: 310px; font-size: 14px; margin-top: 20px; }
+  .port-hero-actions { margin-top: 23px; gap: 22px; }
+  .port-hero-actions .btn-primary { font-size: 13px; }
+  .port-hero-vessel { top: 390px; right: 0; width: 100%; height: 310px; }
+  .port-hero-vessel .ship-study { height: 100%; }
+  .hero-vessel-caption { padding: 7px 23px; justify-content: space-between; gap: 4px; font-size: 9px; }
+  .port-hero-vessel .ship-study--hangar .ship-stage { min-height: 270px; }
+  .port-hero .ship-toolbar { right: 22px; top: 0; }
+  .port-hero .ship-photograph { height: 68%; }
+  .port-hero .ship-attribution { padding: 4px 22px; }
+  .ship-study--hangar .scene-navigation button { height: 34px; min-width: 34px; padding-inline: 9px; }
+  .port-hero .scene-navigation { bottom: 8px; right: 22px; }
+  .port-hero-bottom { inset: auto 26px 22px; font-size: 10px; }
+  .port-hero-bottom > span:last-child { display: none; }
+  .port-operating-strip { grid-template-columns: 1fr 1fr; gap: 25px; padding-block: 24px; }
+  .port-operating-strip strong { font-size: 25px; }
+  .port-operating-strip > * > span { font-size: 11px; }
+  .port-home-lower { margin-top: 40px; }
+  .port-section-heading { gap: 12px; }
+  .port-section-heading h2 { font-size: 21px; }
+  .port-section-heading .port-text-link { font-size: 11px; }
+  .port-activity ol { display: block; }
+  .fleet-tools { flex-wrap: wrap; gap: 15px 12px; }
+  .fleet-search { flex: 1 1 100%; max-width: none; }
+  .fleet-availability { min-width: 0; flex: 1; }
+  .spaceport-switch button { padding-inline: 12px; }
+  .hangar-bay { top: 17px; left: 15px; font-size: 10px; }
+  .hangar-bay span { font-size: 9px; max-width: 130px; }
+  .hangar-scene .ship-toolbar { right: 12px; top: 12px; }
+  .ship-study--hangar .scene-segment button { font-size: 11px; padding-inline: 8px; }
+  .hangar-scene .ship-stage { min-height: 330px; }
+  .hangar-scene .hangar-photograph { min-height: 290px; }
+  .hangar-identity { padding: 23px 14px; gap: 18px; }
+  .hangar-identity h2 { font-size: 18px; }
+  .hangar-capacity strong { font-size: 25px; }
+  .hangar-capacity span { font-size: 10px; }
+  .hangar-roster ul { display: block; max-height: 360px; }
+  .roster-vessel { padding-block: 12px; }
+  .fleet-gallery { grid-template-columns: 1fr; gap: 30px; }
+  .cargo-board-heading { align-items: start; flex-direction: column; gap: 8px; }
+  .cargo-manifest { padding: 22px 20px; }
+  .manifest-masthead { gap: 10px; font-size: 9px; }
+  .manifest-masthead > span:first-child { font-size: 11px; gap: 6px; }
+  .manifest-masthead .port-mark { width: 21px; }
+  .manifest-heading h2 { font-size: 24px; }
+  .manifest-route { grid-template-columns: 1fr 0.25fr 1fr; margin-bottom: 20px; }
+  .world-mark { width: 88px; height: 88px; }
+  .manifest-route strong { font-size: 18px; }
+  .manifest-route small { font-size: 9px; }
+  .manifest-measures { gap: 14px; }
+  .manifest-measures strong { font-size: 20px; }
+  .manifest-measures small { font-size: 10px; }
+  .manifest-foot { gap: 10px; }
+  .manifest-foot > span:not(.manifest-barcode) { font-size: 8px; }
+  .manifest-action { margin-left: 0; flex-basis: 100%; text-align: right; padding-top: 12px; border-bottom: 0; }
+  .port-archive summary { font-size: 14px; }
+  .port-archive summary i { margin-left: 10px; }
+  .archive-table > a, .dispatch-log-row { grid-template-columns: 1fr auto; gap: 10px 16px; }
+  .archive-table > a > span:first-child, .dispatch-log-row > span:first-child { grid-column: 1/-1; }
+  .archive-table > a > span:nth-child(2) { display: none; }
+  .dispatch-welcome { grid-template-columns: 1fr; padding-block: 26px; }
+  .dispatch-welcome-art { display: none; }
+  .dispatch-welcome h2 { font-size: 25px; }
+  .dispatch-summary { grid-template-columns: auto auto auto auto; gap: 10px; }
+  .dispatch-summary strong { font-size: 20px; }
+  .dispatch-composer { grid-template-columns: 1fr; }
+  .dispatch-inputs { padding: 24px 20px; }
+  .dispatch-preview { border-left: 0; border-top: 1px solid #81969522; padding: 20px; }
+  .dispatch-preview > .ship-portrait, .dispatch-preview-empty { height: 200px; }
+  .dispatch-preview-name strong { font-size: 17px; }
+  .flight-row { grid-template-columns: 1fr; gap: 20px; }
+  .log-route { font-size: 10px; justify-content: start; }
+  .log-release { justify-self: end; }
+  .dispatch-log .port-section-heading { align-items: start; flex-direction: column; }
+  .dispatch-receipt { right: 16px; bottom: 16px; padding: 20px; }
+  .port-footer .site-shell { flex-wrap: wrap; align-items: start; gap: 24px; }
+  .port-footer-brand { flex-basis: 100%; }
+  .port-footer-credit { margin-left: auto; }
+  .captain-roster { grid-template-columns: 1fr; }
+}
+@media (max-width: 360px) {
+  .site-shell, .site-main { padding-inline: 14px; }
+  .site-wordmark { font-size: 9px; letter-spacing: 0.08em; gap: 5px; }
+  .site-wordmark .port-mark { width: 20px; }
+  .site-nav-account { gap: 8px; }
+  .site-nav-account > a:not(.btn-primary) { font-size: 11px; }
+  .site-nav-links { gap: 0; }
+  .site-nav-links a { padding-inline: 8px; font-size: 11px; }
+  .port-hero { margin-inline: -14px; }
+  .port-hero-copy { padding-inline: 20px; }
+  .port-hero-actions { gap: 16px; }
+  .port-hero-actions .port-text-link { font-size: 12px; }
+  .manifest-masthead { flex-wrap: wrap; gap: 10px; }
+  .manifest-measures strong { font-size: 18px; }
+  .hangar-bay span { max-width: 100px; }
+  .hangar-scene .scene-segment button { font-size: 10px; padding-inline: 6px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .departure-path, .receipt-flight span { animation: none; }
+  .ship-portrait-image { transition: none; }
+}
+
+.port-form-page { padding-top: 50px; }
+.port-form-page > .port-page-heading { margin-bottom: 38px; }
+.port-form-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 60px; align-items: start; }
+.port-form-fields { display: grid; gap: 24px; min-width: 0; }
+.form-section-title { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; border-top: 1px solid #98a5a036; padding-top: 20px; }
+.form-section-title > span { color: #dddccc; font-size: 17px; }
+.form-section-title > small { color: #82989d; font-size: 11px; }
+.form-field-pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; }
+.field-help { color: #82969c; font-size: 11px; line-height: 1.6; margin-top: 7px; }
+.port-file-input { border: 1px dashed #95a5a045; padding: 20px; border-radius: 3px; }
+.port-file-input input { border: 0; padding: 0; min-height: 32px; background: transparent; font-size: 12px; }
+.port-file-input input::file-selector-button { border: 1px solid #899a8f55; background: #1e2b2d; color: #d5d7c7; border-radius: 3px; padding: 8px 12px; margin-right: 12px; font: 12px var(--font-body); cursor: pointer; }
+.port-file-input p { font-size: 11px; color: #8b9fa4; margin-top: 14px; line-height: 1.7; }
+.port-form-submit { display: flex; align-items: center; flex-wrap: wrap; gap: 18px; padding-top: 12px; }
+.port-form-submit p { font-size: 12px; color: #82969c; max-width: 230px; }
+.registry-preview { position: sticky; top: 110px; border: 1px solid #96a89f4d; background: #101b20; border-radius: 3px; overflow: hidden; }
+.registry-preview-header { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; padding: 22px; border-bottom: 1px solid #7e98942b; color: #b1bbac; }
+.registry-preview-header > span { font-size: 11px; }
+.registry-preview-header small { margin-left: auto; font: 10px var(--font-mono); color: #90a098; }
+.registry-preview-header .port-mark { width: 25px; height: 25px; }
+.registry-preview-photo { position: relative; aspect-ratio: 16/10; background: #080f14; }
+.registry-preview-photo img { object-fit: contain; }
+.registry-preview-body { padding: 28px; }
+.registry-preview-body h2 { font: 400 24px/1.4 var(--font-display); letter-spacing: -0.04em; overflow-wrap: anywhere; }
+.registry-preview-specs { display: grid; grid-template-columns: 1fr 1.25fr; align-items: center; gap: 20px; margin-top: 25px; padding-block: 12px; border-block: 1px solid #859b982b; }
+.registry-preview-specs small { display: block; font-size: 11px; color: #8da199; margin-bottom: 6px; }
+.registry-preview-specs strong { font: 26px var(--font-mono); }
+.registry-preview-specs strong > span { font-size: 12px; color: #c0c3ac; }
+.registry-preview-specs > div + div { display: flex; align-items: center; gap: 8px; }
+.registry-preview-specs .world-mark { width: 62px; height: 62px; flex-shrink: 0; }
+.registry-preview-specs > div + div strong { font: 15px var(--font-body); }
+.registry-preview-seal { display: flex; align-items: center; gap: 12px; padding-top: 25px; color: #c4b88e; }
+.registry-preview-seal > span { font-size: 12px; }
+.registry-preview-seal small { display: block; margin-top: 5px; font-size: 10px; color: #91a097; }
+.manifest-form-preview { position: sticky; top: 110px; min-width: 0; }
+.manifest-form-preview .cargo-manifest { min-height: 480px; }
+@media (max-width: 1000px) { .port-form-layout { gap: 30px; } .registry-preview-body { padding: 22px; } }
+@media (max-width: 680px) {
+  .port-form-page { padding-top: 34px; }
+  .port-form-layout { grid-template-columns: 1fr; gap: 40px; }
+  .registry-preview, .manifest-form-preview { position: static; }
+  .form-field-pair { gap: 14px; }
+  .form-section-title { gap: 14px; }
+  .form-section-title > small { font-size: 10px; }
+  .registry-preview-header { padding: 18px; }
+  .registry-preview-body h2 { font-size: 21px; }
+  .registry-preview-specs { gap: 10px; }
+  .registry-preview-specs .world-mark { width: 50px; height: 50px; }
+  .registry-preview-specs > div + div strong { font-size: 13px; }
+}
+
+.port-detail-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.vessel-detail-layout { display: grid; grid-template-columns: minmax(0, 1.8fr) minmax(0, 0.8fr); border-block: 1px solid #91a19630; }
+.vessel-detail-layout .ship-stage { min-height: 450px; }
+.vessel-dossier { padding: 36px; border-left: 1px solid #9aaba32b; background: #10191f70; }
+.dossier-capacity { padding: 20px 0 26px; }
+.dossier-capacity strong { display: block; font: 52px var(--font-mono); color: #e3dfcb; }
+.dossier-capacity > span { font-size: 12px; color: #98aba9; }
+.dossier-location { display: flex; align-items: center; gap: 10px; padding-block: 15px; margin-bottom: 20px; border-block: 1px solid #93a59b29; }
+.dossier-location .world-mark { width: 80px; height: 80px; flex-shrink: 0; }
+.dossier-location small { display: block; font-size: 11px; color: #8eaaa5; margin-bottom: 8px; }
+.dossier-location strong { font: 20px var(--font-body); }
+.dossier-registered { padding-block: 25px; font-size: 12px; }
+.dossier-registered small { display: block; font-size: 11px; margin-bottom: 7px; color: #90a39b; }
+.vessel-service-record { margin-top: 48px; }
+.vessel-history-row { display: grid; grid-template-columns: 1fr auto minmax(100px, 0.5fr); align-items: center; gap: 25px; padding: 23px 0; border-top: 1px solid #82939126; color: #b5b7a4; font: 12px var(--font-mono); }
+.vessel-history-row > .archive-status { justify-self: end; }
+.contract-detail-layout { display: grid; grid-template-columns: minmax(0, 1.8fr) minmax(0, 0.8fr); gap: 50px; align-items: center; }
+.contract-dossier h2 { font: 28px/1.4 var(--font-body); }
+.contract-dossier > p:not(.port-kicker) { color: #97aaa8; font-size: 14px; line-height: 1.8; margin-top: 16px; }
+.contract-capacity { padding-block: 25px; margin-bottom: 15px; }
+.contract-capacity strong { display: block; font: 32px var(--font-mono); }
+.contract-capacity strong span { font-size: 15px; color: #a4b19f; }
+.contract-capacity small { display: block; color: #8d9f9c; margin-top: 10px; font-size: 11px; }
+.contract-dispatch, .contract-vessels { margin-top: 50px; }
+.contract-vessel { display: grid; gap: 16px; align-content: start; }
+.port-job-row { display: grid; grid-template-columns: 1fr 1fr auto; align-items: center; gap: 30px; border-block: 1px solid #82939126; padding-block: 24px; }
+.port-job-row > div > p { color: #a5b5af; font-size: 14px; margin: 10px 0; }
+.port-job-row > div > p span { margin-inline: 14px; }
+.port-job-row small { font: 11px var(--font-mono); color: #8da19d; }
+.port-job-row > strong { color: #d6ba8e; font: 17px var(--font-mono); }
+.job-vessel-progress + .job-vessel-progress { margin-top: 14px; }
+.job-vessel-progress > a { display: block; margin-bottom: 8px; font-size: 12px; color: #bfc9c3; }
+@media (max-width: 1000px) { .vessel-dossier { padding: 24px; } .contract-detail-layout { gap: 28px; } }
+@media (max-width: 900px) {
+  .vessel-detail-layout { grid-template-columns: 1fr; }
+  .vessel-dossier { border-left: 0; border-top: 1px solid #9aaba32b; }
+  .contract-detail-layout { grid-template-columns: 1fr; }
+  .contract-dossier { padding-top: 18px; }
+}
+@media (max-width: 680px) {
+  .port-detail-actions { gap: 8px; }
+  .port-detail-actions .btn-ghost, .port-detail-actions .btn-danger { font-size: 12px; padding-inline: 13px; }
+  .vessel-detail-layout .ship-stage { min-height: 340px; }
+  .vessel-dossier { padding: 25px; }
+  .dossier-capacity strong { font-size: 40px; }
+  .vessel-history-row { grid-template-columns: 1fr auto; gap: 18px; }
+  .vessel-history-row > a { grid-column: 1/-1; }
+  .vessel-history-row > div { min-width: 110px; }
+  .port-job-row { grid-template-columns: 1fr; gap: 22px; }
+}

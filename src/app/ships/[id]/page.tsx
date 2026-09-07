@@ -1,158 +1,32 @@
-import { ViewTransition } from "react";
-import Link from "next/link";
-import { notFound } from "next/navigation";
-import { auth } from "@clerk/nextjs/server";
-import { getShip, settleArrivals } from "@/lib/queries";
-import { deleteShip } from "@/lib/actions";
-import { registry, credits } from "@/lib/format";
-import { HoloViewport } from "@/components/holo-viewport";
-import { CapacityGauge } from "@/components/capacity-gauge";
-import { RouteLine } from "@/components/route-line";
-import { RunProgress } from "@/components/run-progress";
-import { DeleteButton } from "@/components/delete-button";
+import { ViewTransition } from 'react';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import { auth } from '@clerk/nextjs/server';
+import { getShip, settleArrivals } from '@/lib/queries';
+import { deleteShip } from '@/lib/actions';
+import { registry, credits } from '@/lib/format';
+import { ShipViewport } from '@/components/ship-viewport';
+import { WorldMark } from '@/components/world-mark';
+import { RunProgress } from '@/components/run-progress';
+import { DeleteButton } from '@/components/delete-button';
+import { HangarBackdrop } from '@/components/hangar-backdrop';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 
-export default async function ShipPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function ShipPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const shipId = Number(id);
   if (!Number.isInteger(shipId)) notFound();
-
   await settleArrivals();
   const [ship, { userId }] = await Promise.all([getShip(shipId), auth()]);
   if (!ship) notFound();
   const isOwner = userId === ship.userId;
-  const inTransit = ship.assignments.find((a) => a.completedAt === null);
-
-  return (
-    <div className="pt-10 space-y-8">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <p className="eyebrow mb-2">
-            Fleet registry &middot; {registry(ship.id)}
-          </p>
-          <h1 className="font-display text-2xl tracking-[0.06em] uppercase">
-            {ship.name}
-          </h1>
-        </div>
-        <div className="flex gap-3">
-          <Link href="/ships" transitionTypes={["warp"]} data-sfx="warp" className="btn-ghost">
-            Back to fleet
-          </Link>
-          {isOwner && (
-            <>
-              <Link
-                href={`/ships/${ship.id}/edit`}
-                transitionTypes={["warp"]}
-                data-sfx="warp"
-                className="btn-ghost"
-              >
-                Edit
-              </Link>
-              <DeleteButton
-                action={deleteShip.bind(null, ship.id)}
-                label="Decommission"
-                confirmText={`Decommission ${ship.name}? This removes it from the registry and all runs.`}
-              />
-            </>
-          )}
-        </div>
-      </div>
-
-      <div className="grid lg:grid-cols-[1.2fr_1fr] gap-8">
-        <div className="group">
-          {/* Same name as the fleet-card viewport so the image morphs in. */}
-          <ViewTransition name={`ship-${ship.id}`} share="auto" default="none">
-            <HoloViewport
-              src={ship.imageUrl}
-              alt={ship.name}
-              scan="load"
-              priority
-              sizes="(max-width: 1024px) 100vw, 60vw"
-              className="aspect-[16/10]"
-            />
-          </ViewTransition>
-        </div>
-        <div className="space-y-6">
-          <div className="panel p-5 space-y-4">
-            <div>
-              <p className="eyebrow mb-2">Capacity</p>
-              <CapacityGauge containers={ship.containers} />
-            </div>
-            {inTransit ? (
-              <div>
-                <p className="eyebrow mb-1">In transit</p>
-                <p className="font-mono text-amber uppercase tracking-[0.1em]">
-                  &rarr; {inTransit.job.destination}
-                </p>
-              </div>
-            ) : (
-              <div>
-                <p className="eyebrow mb-1">Docked at</p>
-                <p className="font-mono text-holo uppercase tracking-[0.1em]">
-                  {ship.location}
-                </p>
-              </div>
-            )}
-            <div>
-              <p className="eyebrow mb-1">Registered</p>
-              <p className="font-mono text-sm text-dim">
-                {ship.createdAt.toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "short",
-                  day: "numeric",
-                })}
-              </p>
-            </div>
-          </div>
-
-          <div className="space-y-3">
-            <p className="eyebrow">Dispatched to</p>
-            {ship.assignments.length === 0 ? (
-              <p className="text-dim text-sm">
-                No runs yet. Send it out from the{" "}
-                <Link href="/assignments" className="text-holo hover:underline">
-                  dispatch board
-                </Link>
-                .
-              </p>
-            ) : (
-              <ul className="space-y-3">
-                {ship.assignments.map((a) => (
-                  <li key={a.id} className="panel p-4 space-y-3">
-                    <div className="flex items-baseline justify-between gap-3">
-                      <Link
-                        href={`/jobs/${a.job.id}`}
-                        className="font-display text-xs tracking-[0.08em] uppercase hover:text-holo transition-colors"
-                      >
-                        {a.job.name}
-                      </Link>
-                      <span className="font-mono text-sm text-amber">
-                        {credits(a.job.cost)}
-                      </span>
-                    </div>
-                    <RouteLine origin={a.job.origin} destination={a.job.destination} />
-                    {a.completedAt ? (
-                      <p className="font-mono text-xs text-amber tracking-[0.15em]">
-                        DELIVERED
-                      </p>
-                    ) : (
-                      <RunProgress
-                        departsAt={a.departsAt.getTime()}
-                        arrivesAt={a.arrivesAt.getTime()}
-                      />
-                    )}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-        </div>
-      </div>
+  const inTransit = ship.assignments.find((assignment) => assignment.completedAt === null);
+  return <div className="port-page">
+    <div className="port-page-heading"><div><p className="port-kicker">Fleet registry / {registry(ship.id)}</p><h1>{ship.name}</h1></div><div className="port-detail-actions"><Link href="/ships" transitionTypes={['warp']} className="btn-ghost">Back to fleet</Link>{isOwner ? <><Link href={`/ships/${ship.id}/edit`} className="btn-ghost">Edit vessel</Link><DeleteButton action={deleteShip.bind(null, ship.id)} label="Decommission" confirmText={`Decommission ${ship.name}? This removes it from the registry and all runs.`} /></> : null}</div></div>
+    <div className="vessel-detail-layout"><div className="hangar-scene"><HangarBackdrop /><ViewTransition name={`ship-${ship.id}`} share="auto" default="none"><ShipViewport src={ship.imageUrl} name={ship.name} containers={ship.containers} priority sizes="(max-width: 900px) 100vw, 65vw" className="aspect-[4/3]" presentation="hangar" /></ViewTransition></div>
+      <aside className="vessel-dossier"><p className="port-kicker">The vessel record</p><div className="dossier-capacity"><strong>{ship.containers}</strong><span>CTU of cargo capacity</span></div><div className="dossier-location"><WorldMark name={inTransit?.job.destination ?? ship.location} /><div><small>{inTransit ? 'Bound for' : 'Currently docked'}</small><strong>{inTransit?.job.destination ?? ship.location}</strong></div></div>{inTransit ? <RunProgress departsAt={inTransit.departsAt.getTime()} arrivesAt={inTransit.arrivesAt.getTime()} /> : <Link href="/assignments" className="btn-primary">Find the next run ↗</Link>}<div className="dossier-registered"><small>Commissioned</small><span>{ship.createdAt.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' })}</span></div><Link href="/map" className="port-text-link">Explore the starmap ↗</Link></aside>
     </div>
-  );
+    <section className="vessel-service-record"><div className="port-section-heading"><div><p className="port-kicker">Service record</p><h2>Where this vessel has been.</h2></div><span>{ship.assignments.length} cargo runs</span></div>{ship.assignments.length ? <div className="archive-table">{ship.assignments.map((assignment) => <div className="vessel-history-row" key={assignment.id}><Link href={`/jobs/${assignment.job.id}`}><strong>{assignment.job.name}</strong><small>{assignment.job.origin} → {assignment.job.destination}</small></Link><span>{credits(assignment.job.cost)}</span>{assignment.completedAt ? <span className="archive-status">Delivered</span> : <RunProgress departsAt={assignment.departsAt.getTime()} arrivesAt={assignment.arrivesAt.getTime()} />}</div>)}</div> : <p className="port-log-empty">A fresh registry. This vessel’s first journey begins at the <Link href="/assignments" className="port-text-link">dispatch desk</Link>.</p>}</section>
+  </div>;
 }

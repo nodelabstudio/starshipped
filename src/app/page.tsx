@@ -1,83 +1,37 @@
-import Link from "next/link";
-import { getDb } from "@/db";
-import { getFleetStats, settleArrivals } from "@/lib/queries";
-import { registry, credits } from "@/lib/format";
-import { HoloViewport } from "@/components/holo-viewport";
-import { NeonCursor } from "@/components/neon-cursor";
-import { ActivityFeed } from "@/components/activity-feed";
+import Image from 'next/image';
+import Link from 'next/link';
+import { getShips, getJobs, settleArrivals } from '@/lib/queries';
+import { registry } from '@/lib/format';
+import { cargoState } from '@/lib/fleet-view';
+import { ShipViewport } from '@/components/ship-viewport';
+import { ActivityFeed } from '@/components/activity-feed';
+import { CargoManifest } from '@/components/cargo-manifest';
+import { PortMark } from '@/components/port-mark';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 
 export default async function Home() {
   await settleArrivals();
-  const [stats, featured] = await Promise.all([
-    getFleetStats(),
-    getDb().query.ships.findFirst(),
-  ]);
-
-  return (
-    <div className="pt-14 sm:pt-20 space-y-16">
-      <NeonCursor orbitSelector="#hero-copy" orbitOffsetX={-100} />
-      <section className="grid lg:grid-cols-[1fr_1.1fr] gap-10 items-center">
-        <div id="hero-copy" className="space-y-6">
-          <p className="eyebrow aurebesh">Outer Rim fleet logistics</p>
-          <h1 className="font-display text-3xl sm:text-4xl leading-snug tracking-[0.06em] uppercase">
-            Every ship.
-            <br />
-            Every run.
-            <br />
-            <span className="text-holo">One manifest.</span>
-          </h1>
-          <p className="text-dim max-w-md text-lg">
-            Commission ships, post cargo runs, and dispatch your fleet across
-            ten planets &mdash; from Tatooine to Kashyyyk.
-          </p>
-          <div className="flex flex-wrap gap-3">
-            <Link href="/ships" className="btn-primary">
-              Browse the fleet
-            </Link>
-            <Link href="/jobs" className="btn-ghost">
-              See cargo runs
-            </Link>
-          </div>
-        </div>
-        <div className="group">
-          <HoloViewport
-            src={featured?.imageUrl ?? null}
-            alt={featured?.name ?? "No ships in dock"}
-            scan="load"
-            priority
-            sizes="(max-width: 1024px) 100vw, 55vw"
-            className="aspect-[16/10]"
-          />
-          {featured && (
-            <div className="flex items-baseline justify-between mt-3">
-              <span className="font-mono text-xs text-dim">
-                {registry(featured.id)} &middot; {featured.name.toUpperCase()}
-              </span>
-              <span className="eyebrow">
-                Docked &middot; <span className="text-holo">{featured.location}</span>
-              </span>
-            </div>
-          )}
-        </div>
-      </section>
-
-      <section className="panel grid grid-cols-2 lg:grid-cols-4 divide-x divide-line border-line">
-        {[
-          { label: "Ships in fleet", value: stats.ships },
-          { label: "Fleet capacity", value: `${stats.capacity} CTU` },
-          { label: "Cargo runs", value: stats.jobs },
-          { label: "Credits on the board", value: credits(stats.credits) },
-        ].map((s) => (
-          <div key={s.label} className="p-5 space-y-1">
-            <p className="font-mono text-xl text-holo">{s.value}</p>
-            <p className="eyebrow">{s.label}</p>
-          </div>
-        ))}
-      </section>
-
-      <ActivityFeed />
-    </div>
-  );
+  const [ships, jobs] = await Promise.all([getShips(), getJobs()]);
+  const featured = ships.find((ship) => ship.name === 'Millennium Falcon') ?? ships.find((ship) => ship.name === 'Imperial Star Destroyer') ?? ships[0];
+  const openJobs = jobs.filter((job) => cargoState(job.assignments) === 'available');
+  const underway = ships.filter((ship) => ship.assignments.some((assignment) => assignment.completedAt === null)).length;
+  const featuredJourney = featured?.assignments.find((assignment) => assignment.completedAt === null);
+  return <div className="spaceport-home">
+    <section className="port-hero">
+      <Image src="/art/spaceport-hangar.png" alt="" fill priority sizes="100vw" className="port-hero-backdrop" />
+      <div className="port-hero-shade" aria-hidden="true" />
+      <div id="hero-copy" className="port-hero-copy"><p className="port-hero-overline"><PortMark />Independent fleet logistics</p><h1>For the<br />long haul.</h1><p>Commission a vessel, take a contract, and carry your cargo across ten worlds.</p>
+        <div className="port-hero-actions"><Link href="/ships" className="btn-primary">Enter the hangar <span aria-hidden="true">↗</span></Link><Link href="/map" className="port-text-link">Open starmap</Link></div>
+      </div>
+      {featured ? <div className="port-hero-vessel"><ShipViewport src={featured.imageUrl} name={featured.name} containers={featured.containers} priority sizes="(max-width: 680px) 76vw, (max-width: 1100px) 50vw, 600px" className="aspect-[4/3]" presentation="hangar" modeOrder="hull-first" /><Link href={`/ships/${featured.id}`} className="hero-vessel-caption"><span>{registry(featured.id)} / {featured.name}</span><span>{featuredJourney ? `Bound for ${featuredJourney.job.destination}` : `In dock at ${featured.location}`}</span></Link></div> : null}
+      <div className="port-hero-bottom"><span>Outer Rim operations</span><span>Est. 2018 <span aria-hidden="true">/</span> A galaxy of possibility</span></div>
+    </section>
+    <section className="port-operating-strip" aria-label="Fleet overview">
+      <Link href="/ships"><strong>{ships.length}</strong><span>Vessels in the registry</span></Link><Link href="/assignments"><strong>{underway.toString().padStart(2, '0')}</strong><span>Currently underway</span></Link><Link href="/jobs"><strong>{openJobs.length.toString().padStart(2, '0')}</strong><span>Open cargo contracts</span></Link><div><strong>{ships.reduce((sum, ship) => sum + ship.containers, 0)}<small> CTU</small></strong><span>Combined cargo capacity</span></div>
+    </section>
+    <div className="port-home-lower"><section><div className="port-section-heading"><div><p className="port-kicker">Cargo board</p><h2>The next departure.</h2></div><Link href="/jobs" className="port-text-link">All contracts ↗</Link></div>
+      {openJobs[0] ? <CargoManifest job={openJobs[0]} /> : <div className="port-empty"><h3>All cargo is accounted for.</h3><p>The next journey starts with a new contract.</p><Link href="/jobs/new" className="btn-ghost">Post a cargo run</Link></div>}
+    </section><ActivityFeed /></div>
+  </div>;
 }

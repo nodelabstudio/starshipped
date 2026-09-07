@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Show, UserButton } from "@clerk/nextjs";
 import { SoundToggle } from "./sound-toggle";
+import { PortMark } from './port-mark';
 
 const LINKS = [
   { href: "/ships", label: "Fleet" },
@@ -17,25 +18,26 @@ export function Nav() {
   const pathname = usePathname();
   return (
     <header
-      className="border-b border-line bg-void sticky top-0 z-40"
+      className="port-header sticky top-0 z-40"
       style={{ viewTransitionName: "site-header" }}
     >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 h-14 flex items-center gap-6">
+      <div className="site-nav site-shell">
         <Link
           href="/"
           transitionTypes={["warp"]}
           data-sfx="warp"
-          className="font-display text-sm tracking-[0.3em] text-ink hover:text-holo transition-colors"
+          className="site-wordmark font-display text-sm tracking-[0.3em] text-ink hover:text-holo transition-colors"
         >
-          STARSHIPPED
+          <PortMark />STARSHIPPED
         </Link>
-        <nav className="flex items-center gap-1 sm:gap-2 flex-1 overflow-x-auto">
+        <nav aria-label="Main navigation" className="site-nav-links flex items-center gap-1 sm:gap-2 overflow-x-auto">
           {LINKS.map((link) => {
             const active =
               pathname === link.href || pathname.startsWith(link.href + "/");
             return (
               <Link
                 key={link.href}
+                aria-current={active ? 'page' : undefined}
                 href={link.href}
                 transitionTypes={["warp"]}
                 data-sfx="warp"
@@ -50,7 +52,7 @@ export function Nav() {
             );
           })}
         </nav>
-        <div className="flex items-center gap-3">
+        <div className="site-nav-account flex items-center gap-3">
           <SoundToggle />
           <Show when="signed-out">
             <Link

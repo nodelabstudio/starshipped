@@ -9,7 +9,10 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import { Nav } from "@/components/nav";
 import { SoundEffects } from "@/components/sound-effects";
+import { DispatchReceipt } from '@/components/dispatch-receipt';
+import { PortMark } from '@/components/port-mark';
 import "./globals.css";
+import './spaceport.css';
 
 const michroma = Michroma({
   weight: "400",
@@ -52,9 +55,9 @@ export default function RootLayout({
       appearance={{
         theme: dark,
         variables: {
-          colorPrimary: "#5cc8ff",
-          colorBackground: "#0b1220",
-          colorForeground: "#e9eff8",
+          colorPrimary: "#eeb777",
+          colorBackground: "#101920",
+          colorForeground: "#eee8da",
           borderRadius: "2px",
         },
       }}
@@ -66,7 +69,7 @@ export default function RootLayout({
         <body className="starfield min-h-full flex flex-col">
           <SoundEffects />
           <Nav />
-          <main className="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 pb-20">
+          <main className="site-main flex-1">
             {/* Only "warp"-tagged link navigations animate. Untyped
                 transitions (e.g. router.refresh() when runs settle) must
                 swap instantly, hence default "none" everywhere. */}
@@ -79,15 +82,12 @@ export default function RootLayout({
               {children}
             </ViewTransition>
           </main>
-          <footer className="border-t border-line bg-void">
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 flex flex-wrap gap-x-6 gap-y-1 items-baseline justify-between">
-              <span className="font-display text-xs tracking-[0.25em] text-dim">
-                STARSHIPPED
-              </span>
-              <span className="eyebrow">
-                est. 2018 &middot; rebuilt 2026 &middot; originally by Mario Borras &amp; Angel
-                Rodriguez
-              </span>
+          <DispatchReceipt />
+          <footer className="port-footer">
+            <div className="site-shell">
+              <span className="port-footer-brand"><PortMark />STARSHIPPED</span>
+              <p>Independent fleet logistics.<br /><span>Est. 2018 / Rebuilt 2026</span></p>
+              <p className="port-footer-credit">Originally by<br />Mario Borras &amp; Angel Rodriguez<br /><a href="/models/credits.txt" className="port-text-link">3D artwork credits</a></p>
             </div>
           </footer>
         </body>

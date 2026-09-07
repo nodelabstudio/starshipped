@@ -1,15 +1,15 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-void: #05080f;
-  --color-panel: #0b1220;
-  --color-panel-2: #101a2e;
-  --color-line: #1c2a47;
-  --color-holo: #5cc8ff;
-  --color-amber: #ffb757;
+  --color-void: #080d12;
+  --color-panel: #10191f;
+  --color-panel-2: #17212a;
+  --color-line: #29353e;
+  --color-holo: #8ccbd7;
+  --color-amber: #eeb777;
   --color-danger: #ff7a70;
-  --color-ink: #e9eff8;
-  --color-dim: #8aa0c2;
+  --color-ink: #eee8da;
+  --color-dim: #9daeb7;
   --font-display: var(--font-michroma);
   --font-body: var(--font-saira);
   --font-mono: var(--font-stm);
@@ -199,8 +199,8 @@ body {
 /* ------ Shared UI ------ */
 .eyebrow {
   font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.22em;
+  font-size: 12px;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--color-dim);
 }
@@ -287,4 +287,292 @@ select:focus-visible,
 textarea:focus-visible {
   outline: 2px solid var(--color-holo);
   outline-offset: 2px;
+}
+
+/* The galaxy and hangar share instrument controls; the scene supplies depth. */
+.site-nav { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 1.5rem; min-height: 56px; }
+.site-nav-account { white-space: nowrap; }
+.map-heading { display: flex; justify-content: space-between; align-items: end; gap: 1.5rem; }
+.galaxy-console, .ship-study { border: 1px solid #263b51; background: var(--color-void); }
+.scene-toolbar {
+  min-height: 56px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: #0c1623;
+  border-bottom: 1px solid var(--color-line);
+}
+.scene-signal { display: inline-flex; align-items: center; gap: 0.55rem; color: #b2c6d8; font-size: 13px; }
+.scene-signal > span:first-child { width: 5px; height: 5px; border-radius: 50%; background: var(--color-holo); box-shadow: 0 0 9px #5cc8ff70; }
+.scene-toolbar-count { margin-left: 0.65rem; padding-left: 1rem; border-left: 1px solid #2d4158; color: var(--color-amber); }
+.scene-segment { display: inline-flex; gap: 2px; padding: 3px; border: 1px solid #283c51; border-radius: 4px; background: #060d16; }
+.scene-segment button {
+  min-height: 32px;
+  padding: 0.25rem 0.7rem;
+  border-radius: 2px;
+  color: #a5bbcf;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 160ms, color 160ms;
+}
+.scene-segment button[aria-pressed="true"] { background: #1c354a; color: #d5f1ff; box-shadow: inset 0 0 0 1px #34576e; }
+.scene-segment button:hover { color: white; }
+.scene-segment button:disabled { opacity: 0.4; cursor: default; }
+.galaxy-layout { display: grid; grid-template-columns: minmax(0, 1fr) 272px; }
+.galaxy-stage {
+  position: relative;
+  min-width: 0;
+  height: 620px;
+  overflow: hidden;
+  isolation: isolate;
+  background: radial-gradient(ellipse at 45% 45%, #122537 0%, #081321 44%, #040a13 85%);
+}
+.three-host, .galaxy-labels { position: absolute; inset: 0; }
+.three-host canvas { display: block; width: 100%; height: 100%; }
+.galaxy-labels { pointer-events: none; overflow: hidden; }
+.galaxy-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 5px 7px;
+  pointer-events: auto;
+  cursor: pointer;
+  color: #cfdae7;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1;
+  letter-spacing: 0.055em;
+  text-shadow: 0 1px 5px #02080f, 0 0 8px #02080f;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  background: #050d17a6;
+  white-space: nowrap;
+}
+.galaxy-label[aria-pressed="true"] { color: var(--color-amber); border-color: #9b703754; background: #15160fe6; }
+.galaxy-label:hover { color: white; border-color: #5cc8ff70; }
+.galaxy-sector {
+  position: absolute;
+  top: 1.25rem;
+  left: 1.25rem;
+  z-index: 2;
+  display: grid;
+  gap: 0.3rem;
+  pointer-events: none;
+  font-family: var(--font-mono);
+  color: #8ba5bd;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+}
+.galaxy-sector span + span { color: #647e97; letter-spacing: 0.04em; }
+.scene-navigation { position: absolute; right: 1rem; bottom: 1rem; z-index: 3; display: flex; gap: 4px; }
+.scene-navigation button {
+  height: 36px;
+  min-width: 36px;
+  padding: 0 0.7rem;
+  border: 1px solid #334a62;
+  border-radius: 3px;
+  background: #0a1522e8;
+  color: #d0e5f4;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  cursor: pointer;
+}
+.scene-navigation button:hover { border-color: var(--color-holo); background: #153048; }
+.scene-legend { position: absolute; left: 1.25rem; bottom: 3.6rem; display: flex; gap: 1rem; pointer-events: none; }
+.scene-legend > span { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #a7bdcf; }
+.scene-legend i { display: block; width: 15px; height: 1px; }
+.legend-active { background: var(--color-amber); box-shadow: 0 0 5px #ffb75770; }
+.legend-open { border-top: 1px dashed #7798b4; }
+.scene-gesture { position: absolute; left: 1.25rem; bottom: 1.65rem; color: #7892aa; font-size: 11px; pointer-events: none; }
+.scene-loading { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 0.75rem 1rem; color: #d0e5f4; background: #09131eee; border: 1px solid #2b475d; font-size: 13px; white-space: nowrap; }
+.scene-fallback-note { position: absolute; bottom: 6rem; left: 1rem; right: 1rem; padding: 0.5rem; color: #b7cee0; background: #0a1422ed; font-size: 12px; }
+.tactical-map { position: absolute; inset: 1rem 0 4rem; }
+.galaxy-readout { padding: 1.25rem; background: linear-gradient(155deg, #101e2d, #0a1420 65%); border-left: 1px solid #263b51; max-height: 620px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #29435b #0b1521; }
+.planet-select { font-size: 14px; border: 1px solid #31475e; border-radius: 3px; padding: 0.55rem; }
+.planet-readout-heading { padding: 1.5rem 0 1.1rem; }
+.readout-orb {
+  display: block;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 1.1rem;
+  border-radius: 50%;
+  background: radial-gradient(circle at 29% 25%, #ffffffac, transparent 30%), radial-gradient(circle at 25% 30%, var(--planet-color), #080e1b 80%);
+  box-shadow: 0 0 24px color-mix(in srgb, var(--planet-color) 14%, transparent), inset -5px -5px 10px #020711;
+}
+.planet-readout-heading h2 { font-family: var(--font-display); font-size: 17px; line-height: 1.55; margin: 0.4rem 0; }
+.readout-stats { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid #25394d; border-bottom: 1px solid #25394d; padding: 1rem 0; gap: 0.8rem; }
+.readout-stats div { display: grid; gap: 0.15rem; }
+.readout-stats strong { color: #c5eaff; font-family: var(--font-mono); font-size: 23px; font-weight: 400; }
+.readout-stats span { color: #8fa7bd; font-size: 12px; }
+.readout-section { margin-top: 1.4rem; }
+.readout-section h3 { color: #c1d2e1; font-size: 13px; font-weight: 500; margin-bottom: 0.7rem; }
+.docked-list { display: grid; gap: 0.65rem; color: #a9c0d5; font-size: 13px; }
+.docked-list li { display: flex; gap: 0.6rem; align-items: baseline; }
+.docked-list li > span { color: var(--color-holo); }
+.map-run-list { display: grid; gap: 0.65rem; }
+.map-run-list a { display: grid; gap: 0.35rem; padding: 0.8rem; border: 1px solid #263d53; border-radius: 3px; background: #07111ccc; font-size: 11px; }
+.map-run-list a:hover { border-color: #5689ad; background: #102235; }
+.map-run-name { color: #d4e0eb; font-size: 13px; line-height: 1.35; }
+.map-run-destination { color: #91aabf; }
+.map-run-progress { height: 2px; margin-top: 0.3rem; background: #28394b; }
+.map-run-progress > span { display: block; height: 100%; background: var(--color-amber); }
+.readout-dispatch { margin-top: 1.6rem; padding-top: 1rem; border-top: 1px solid #263b51; display: flex; justify-content: space-between; color: var(--color-holo); font-size: 13px; }
+.readout-dispatch:hover { color: white; }
+.ship-toolbar { padding: 0.65rem 0.85rem; }
+.ship-stage { position: relative; width: 100%; overflow: hidden; isolation: isolate; min-height: 300px; background: radial-gradient(ellipse at 50% 42%, #172936, #0a141f 60%, #050a10); }
+.ship-study-caption { position: absolute; left: 1rem; top: 1rem; display: grid; gap: 3px; color: #aac3d6; font-family: var(--font-mono); font-size: 11px; pointer-events: none; }
+.ship-study-caption > span { color: #7591a8; font-family: var(--font-body); }
+.ship-cargo { position: absolute; left: 1rem; bottom: 1rem; z-index: 3; }
+.ship-cargo button { padding: 0.45rem 0.6rem; color: #b3d9ee; background: #0a1725ed; border: 1px solid #304d64; border-radius: 3px; font-size: 12px; cursor: pointer; }
+.ship-cargo button > span { color: var(--color-amber); margin-right: 4px; }
+.ship-cargo p { position: absolute; bottom: calc(100% + 0.6rem); width: 190px; padding: 0.8rem; border: 1px solid #3d5b70; background: #0b1927f5; border-radius: 3px; }
+.ship-cargo p strong { display: block; color: var(--color-amber); font-family: var(--font-mono); font-size: 20px; font-weight: 400; }
+.ship-cargo p > span { color: #a0b8ca; font-size: 12px; }
+
+@media (max-width: 900px) {
+  .galaxy-layout { grid-template-columns: minmax(0, 1fr) 235px; }
+  .galaxy-readout { padding: 1rem; }
+  .scene-toolbar-count { display: none; }
+  .scene-gesture { display: none; }
+}
+@media (max-width: 680px) {
+  .site-nav { grid-template-columns: 1fr auto; gap: 0; padding-top: 0.8rem; }
+  .site-wordmark { font-size: 11px; letter-spacing: 0.2em; }
+  .site-nav-links { grid-column: 1 / -1; grid-row: 2; padding-top: 0.7rem; padding-bottom: 0.5rem; }
+  .site-nav-links a { padding: 0.45rem 0.65rem; font-size: 11px; letter-spacing: 0.06em; }
+  .site-nav-account { gap: 0.6rem; }
+  .site-nav-account > button { font-size: 9px; letter-spacing: 0.03em; }
+  .site-nav-account a { font-size: 10px; }
+  .site-nav-account .btn-primary { padding: 0.35rem 0.5rem !important; font-size: 10px !important; letter-spacing: 0.08em; }
+  .map-heading { align-items: start; }
+  .map-heading > p { max-width: 160px; font-size: 12px; }
+  .galaxy-layout { grid-template-columns: minmax(0, 1fr); }
+  .galaxy-stage { height: 450px; }
+  .galaxy-readout { border-left: 0; border-top: 1px solid #263b51; max-height: none; }
+  .planet-readout-heading { padding-top: 1.25rem; }
+  .readout-orb { float: right; margin: 0.2rem 0 1rem 1rem; }
+  .map-run-list { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+  .scene-toolbar { padding: 0.65rem; }
+  .scene-signal { font-size: 12px; }
+  .scene-segment button { padding: 0.25rem 0.6rem; min-height: 36px; }
+  .scene-navigation button { min-width: 40px; height: 40px; }
+  .scene-legend { bottom: 4.2rem; }
+  .ship-stage { min-height: 320px; }
+  .ship-study .scene-navigation { right: 0.65rem; bottom: 0.65rem; }
+  .ship-cargo { left: 0.65rem; top: 3.6rem; bottom: auto; }
+  .ship-cargo p { top: calc(100% + 0.6rem); bottom: auto; }
+  .ship-cargo button { font-size: 11px; padding: 0.45rem; }
+}
+@media (max-width: 380px) {
+  .site-wordmark { font-size: 9px; letter-spacing: 0.08em; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scene-segment button { transition: none; }
+}
+
+.ship-attribution { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.25rem 1rem; padding: 0.5rem 0.85rem; border-top: 1px solid #1c2c3c; color: #7f98ac; font-size: 10px; }
+.ship-attribution a { text-underline-offset: 3px; }
+.ship-attribution a:hover { color: #c5e8ff; text-decoration: underline; }
+
+.ship-study:fullscreen { display: flex; flex-direction: column; width: 100%; height: 100%; border: 0; }
+.ship-study:fullscreen .ship-stage { flex: 1; min-height: 0; aspect-ratio: auto; }
+.ship-study::backdrop { background: #050a10; }
+
+/* Fleet atlas: quiet chart furniture, illuminated worlds, inspectable journeys. */
+.galaxy-layout { position: relative; grid-template-columns: minmax(0, 1fr) 288px; }
+.galaxy-stage { height: 660px; background: radial-gradient(ellipse at 64% 22%, #19243a55, transparent 53%), radial-gradient(ellipse at 32% 76%, #173d4938, transparent 58%), #050b14; }
+.galaxy-stage::before { content: ''; position: absolute; inset: 0; pointer-events: none; background-image: radial-gradient(1px 1px at 14% 18%, #dceaf68c 70%, transparent), radial-gradient(1px 1px at 72% 34%, #b9d7eb70 70%, transparent), radial-gradient(1px 1px at 34% 64%, #c3dce677 70%, transparent); background-size: 179px 191px, 227px 163px, 313px 277px; }
+.galaxy-stage .three-host { cursor: grab; }
+.galaxy-toolbar-actions { display: flex; align-items: center; gap: 8px; }
+.map-expand { width: 36px; height: 36px; border: 1px solid #334a62; border-radius: 3px; color: #c3dbe8; font-size: 21px; cursor: pointer; }
+.map-expand:hover { background: #153048; }
+.galaxy-mapbar { position: absolute; z-index: 3; inset: 20px 20px auto; display: flex; align-items: start; justify-content: space-between; gap: 12px; pointer-events: none; }
+.galaxy-location { display: grid; gap: 5px; font-size: 13px; color: #c0d3df; }
+.galaxy-location small { font-size: 11px; color: #7e99af; }
+.galaxy-filter { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #8eacbe; pointer-events: auto; }
+.galaxy-filter select { padding: 7px 24px 7px 9px; min-height: 36px; color: #d4e4ee; border: 1px solid #2b4357; border-radius: 3px; background: #0a1521; font-size: 12px; cursor: pointer; }
+.galaxy-label { min-height: 32px; padding: 9px 8px; color: #cbdde8; letter-spacing: 0.02em; font-size: 12px; background: #07111b9c; border-radius: 3px; }
+.galaxy-label[aria-pressed="true"], .galaxy-label[data-connected="true"] { color: #c7f3ff; border-color: #70d3ef66; background: #112937ed; box-shadow: 0 0 18px #58c6e71a; }
+.galaxy-label:focus-visible { outline: 2px solid #b7eeff; outline-offset: 2px; }
+.galaxy-leaders { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.galaxy-leaders line { stroke: #83bdd080; stroke-width: 1; }
+.galaxy-tooltip { position: absolute; z-index: 4; width: 220px; pointer-events: none; padding: 12px 14px; border: 1px solid #456173; border-radius: 4px; background: #0d1b28f5; box-shadow: 0 10px 32px #0008; }
+.galaxy-tooltip strong { display: block; color: #e1eff5; font-size: 13px; font-weight: 500; }
+.galaxy-tooltip span { display: block; margin-top: 5px; color: #99b5c8; font-size: 11px; line-height: 1.5; }
+.galaxy-readout { max-height: 660px; padding: 0; background: linear-gradient(155deg, #101d2b, #09121d 70%); }
+.map-details { padding: 20px; }
+.map-sheet-toggle { display: none; }
+.planet-readout-heading { position: relative; padding-top: 25px; }
+.planet-readout-heading h2 { font-size: 18px; line-height: 1.4; margin: 8px 0; overflow-wrap: anywhere; }
+.map-detail-kicker { font-size: 11px; color: #81b3cb; }
+.planet-portrait { position: relative; width: 152px; height: 152px; margin: -12px auto 8px; pointer-events: none; }
+.planet-portrait canvas { width: 100%; height: 100%; display: block; }
+.map-focus { display: flex; align-items: center; justify-content: space-between; width: 100%; min-height: 38px; margin-top: 16px; padding: 8px 12px; color: #b5edff; border: 1px solid #34596e; border-radius: 3px; background: #102838; font-size: 12px; cursor: pointer; }
+.map-focus:hover { border-color: #80d6ef; background: #173447; }
+.map-back { font-size: 12px; color: #89aabd; text-decoration: underline; text-underline-offset: 4px; margin-top: 14px; cursor: pointer; }
+.map-run-list { gap: 8px; }
+.map-run-list button { display: grid; gap: 6px; width: 100%; text-align: left; padding: 12px; border: 1px solid #263d53; border-radius: 3px; background: #07111c99; font-size: 11px; cursor: pointer; }
+.map-run-list button:hover, .map-run-list button[aria-pressed="true"] { border-color: #619ab6; background: #102638; }
+.map-route-stops { display: grid; justify-items: start; gap: 8px; padding: 16px 0; border-block: 1px solid #25394d; }
+.map-route-stops button { text-align: left; color: #d6e7ef; font-size: 16px; cursor: pointer; padding: 4px 0; }
+.map-route-stops button:hover { color: #93e4ff; }
+.map-route-stops small { display: block; font-size: 11px; color: #86a7bd; margin-bottom: 4px; }
+.map-route-stops > span { color: #5e91ab; }
+.map-cargo { display: flex; align-items: baseline; gap: 8px; margin-top: 20px; }
+.map-cargo strong { color: #d2e7ef; font-family: var(--font-mono); font-size: 24px; font-weight: 400; }
+.map-cargo span { color: #8fa7bd; font-size: 12px; }
+.map-vessels { display: grid; gap: 16px; }
+.map-vessels li { display: grid; gap: 6px; font-size: 13px; }
+.map-vessels a { color: #c2e9fa; }
+.map-vessels a:hover { text-decoration: underline; }
+.map-arrival { color: var(--color-amber); font-family: var(--font-mono); font-size: 12px; }
+.galaxy-console .map-run-progress { display: block; height: 3px; }
+.map-empty-filter { position: absolute; left: 20px; right: 20px; bottom: 100px; padding: 12px; color: #a3c1d0; background: #081321ed; border: 1px solid #294356; font-size: 12px; text-align: center; pointer-events: none; }
+.tactical-route-hit { cursor: pointer; }
+.tactical-route-hit:focus-visible, .tactical-route-hit:hover { stroke: #7cdfff; stroke-opacity: 0.22; outline: none; }
+.galaxy-stage .tactical-map { inset: 80px 12px 100px; }
+.galaxy-console:fullscreen { display: flex; flex-direction: column; width: 100%; height: 100%; border: 0; }
+.galaxy-console:fullscreen .galaxy-layout { flex: 1; min-height: 0; }
+.galaxy-console:fullscreen .galaxy-stage { height: 100%; }
+.galaxy-console:fullscreen .galaxy-readout { max-height: 100%; }
+.galaxy-console::backdrop { background: #050b14; }
+@media (max-width: 1000px) and (min-width: 681px) {
+  .galaxy-layout { grid-template-columns: minmax(0, 1fr) 252px; }
+  .map-details { padding: 16px; }
+  .galaxy-mapbar { inset: 16px 14px auto; }
+  .galaxy-filter { font-size: 0; }
+}
+@media (max-width: 680px) {
+  .galaxy-layout { display: block; }
+  .galaxy-stage { height: clamp(580px, 78svh, 720px); }
+  .galaxy-mapbar { inset: 16px 12px auto; gap: 8px; }
+  .galaxy-location { font-size: 12px; }
+  .galaxy-location small { max-width: 130px; font-size: 10px; line-height: 1.5; }
+  .galaxy-filter { font-size: 0; }
+  .galaxy-filter select { min-height: 40px; max-width: 140px; }
+  .galaxy-toolbar-actions { gap: 5px; }
+  .galaxy-console .scene-segment button { padding-inline: 8px; font-size: 12px; }
+  .galaxy-console .scene-signal { gap: 5px; font-size: 11px; }
+  .map-expand { width: 30px; }
+  .galaxy-label { font-size: 11px; padding: 9px 6px; }
+  .galaxy-console .scene-navigation { right: 12px; bottom: 88px; }
+  .galaxy-console .scene-legend { left: 14px; bottom: 143px; gap: 12px; }
+  .galaxy-console .scene-legend > span { font-size: 10px; }
+  .galaxy-console .scene-navigation button { font-size: 12px; }
+  .galaxy-readout { position: absolute; inset: auto 0 0; z-index: 5; max-height: 58%; border-top: 1px solid #3a586d; border-left: 0; border-radius: 12px 12px 0 0; background: #0c1926fa; box-shadow: 0 -12px 32px #02071066; }
+  .map-sheet-toggle { position: sticky; top: 0; z-index: 1; display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 10px; min-height: 76px; padding: 14px 18px; text-align: left; background: #0d1c2a; cursor: pointer; }
+  .map-sheet-toggle small { display: block; font-size: 10px; color: #89aec1; margin-bottom: 5px; }
+  .map-sheet-toggle strong { display: block; font-family: var(--font-display); color: #d9ebf4; font-size: 13px; font-weight: 400; line-height: 1.4; }
+  .map-sheet-toggle > span:last-child { flex-shrink: 0; color: #91d2ee; font-size: 11px; }
+  .galaxy-readout[data-open="false"] .map-details { display: none; }
+  .map-details { padding: 12px 18px 24px; }
+  .planet-readout-heading { min-height: 130px; }
+  .planet-portrait { float: right; width: 120px; height: 120px; margin: -5px -5px 10px 8px; }
+  .planet-readout-heading .map-focus { clear: both; }
+  .map-empty-filter { bottom: 188px; }
+  .galaxy-console .scene-fallback-note { bottom: 190px; }
+  .galaxy-console:fullscreen .galaxy-layout { height: 0; }
 }

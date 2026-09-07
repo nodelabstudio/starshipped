@@ -35,15 +35,16 @@ export default async function CaptainsPage() {
     .map(({ user }) => user);
 
   return (
-    <div className="pt-10 space-y-8">
-      <div>
-        <p className="eyebrow aurebesh mb-2">Crew roster</p>
-        <h1 className="font-display text-2xl tracking-[0.06em] uppercase">
-          All captains
+    <div className="port-page">
+      <div className="port-page-heading"><div>
+        <p className="port-kicker">Crew roster</p>
+        <h1>
+          Captains of the fleet.
         </h1>
-      </div>
+        <p>Good cargo is in good hands.</p>
+      </div></div>
 
-      <ul className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <ul className="captain-roster">
         {ranked.map((user, rank) => {
           const email = user.primaryEmailAddress?.emailAddress ?? "unknown";
           const name =
@@ -52,7 +53,7 @@ export default async function CaptainsPage() {
           const shipCount = shipCounts.get(user.id) ?? 0;
           const stats = captainStats.get(user.id);
           return (
-            <li key={user.id} className="panel p-5 flex items-center gap-4">
+            <li key={user.id} className="captain-record flex items-center gap-4">
               <p
                 className={`font-mono text-xs tracking-[0.15em] shrink-0 ${
                   rank === 0 ? "text-amber" : "text-dim"
@@ -60,7 +61,7 @@ export default async function CaptainsPage() {
               >
                 #{rank + 1}
               </p>
-              <div className="relative size-12 shrink-0 border border-line overflow-hidden">
+              <div className="captain-avatar relative size-12 shrink-0 overflow-hidden">
                 <Image
                   src={user.imageUrl}
                   alt=""
@@ -70,7 +71,7 @@ export default async function CaptainsPage() {
                 />
               </div>
               <div className="min-w-0">
-                <p className="font-display text-xs tracking-[0.08em] uppercase truncate">
+                <p className="captain-name truncate">
                   {name}
                 </p>
                 <p className="font-mono text-xs text-dim truncate mt-1">
